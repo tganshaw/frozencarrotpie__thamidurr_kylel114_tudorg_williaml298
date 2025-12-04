@@ -40,7 +40,7 @@ def get_cards(user_id):
         cursorfetch = -1
     db.commit()
     db.close()
-    return cursorfetch
+    return cursorfetch.split(";")
 
 def add_card(user_id, card_id):
     cards = get_cards(user_id)

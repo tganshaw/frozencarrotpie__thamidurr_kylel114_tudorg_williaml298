@@ -3,6 +3,10 @@ from flask import render_template
 from flask import request
 from flask import session
 from flask import redirect
+from flask import *
+import urllib
+import os
+import json
 import sqlite3
 import user
 
@@ -56,6 +60,41 @@ def addcard():
         user.add_card(user_id,request.args['TEST'])
         return redirect("/")
     return redirect("/")
+
+@app.route("/displayset", methods=["POST","GET"])
+def displayset():
+    if("SET" not in request.args):
+        return redirect("/")
+    set_id = request.args["SET"]
+    if os.path.exists(f"Data/{set_id}.json"):
+        file = open(f"Data/{set_id}.json", "r")
+        data = json.load(file)
+    else:
+        return redirect(f"/cache?SET={set_id}")
+    set_data = data
+    data = data["cards"]
+    title_data = ""
+    title_data += f"{set_data['name']}"
+    if "logo" in set_data:
+        title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']}><br><br>"
+    img_data = ""
+    for card in data:
+        if(not type(card) is int):
+            if "image" in card:
+            # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
+                img_data += f"<a href='card/{card['id']}'>"
+                img_data += f"<img src = '{card['image']}/low.png'><br>\n"
+                img_data += "</a>"
+            else:
+                img_data += f"<a href='card/{card['id']}'>"
+                img_data += f"<img src = 'static/noimglow.png'><br>\n"
+                img_data += "</a>"
+
+    return render_template("collection.html", imgs = img_data)
+
+#----------------------------------------------------------
+
+
 
 #----------------------------------------------------------
 
