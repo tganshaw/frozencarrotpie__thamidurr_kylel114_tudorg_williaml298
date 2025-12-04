@@ -28,6 +28,28 @@ def get_user_id(username):
     db.close()
     return cursorfetch
 
+
+def get_cards(user_id):
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    cursor.execute(f"SELECT cards FROM userdata WHERE id = {user_id};")
+    cursorfetch = cursor.fetchone()
+    if(cursorfetch is not None):
+        cursorfetch = cursorfetch[0]
+    else:
+        cursorfetch = -1
+    db.commit()
+    db.close()
+    return cursorfetch
+
+def add_card(user_id, card_id):
+    cards = get_cards(user_id)
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    cursor.execute(f"UPDATE userdata SET cards = '{cards};{card_id}' WHERE id = {user_id};")
+    db.commit()
+    db.close()
+
 def user_exists(username):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()

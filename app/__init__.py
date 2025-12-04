@@ -40,17 +40,22 @@ def homepage():
 def homepagehtml():
     loggedIn = "false"
     if 'username' in session:
-        if(not user.user_exists(session['username'])):
-            return redirect("/logout")
-        loggedIn = "true"
-        DB = sqlite3.connect(DB_NAME)
-        DB_CURSOR = DB.cursor()
-        DB_CURSOR.execute(f"SELECT id FROM userdata WHERE username =\"{session['username']}\";")
-        userId = DB_CURSOR.fetchone()[0]
-        session['userId'] = userId
+        user_id = user.get_user_id(session['username'])
+        cards = user.get_cards(user_id)
+        return render_template("homepage.html", test = cards)
     else:
         return redirect("/login.html")
     return render_template("homepage.html",logged_in = loggedIn)
+
+#----------------------------------------------------------
+
+@app.route("/addcard", methods = ["POST", "GET"])
+def addcard():
+    if 'username' in session:
+        user_id = user.get_user_id(session['username'])
+        user.add_card(user_id,request.args['TEST'])
+        return redirect("/")
+    return redirect("/")
 
 #----------------------------------------------------------
 
@@ -93,7 +98,7 @@ def register():
         return render_template("register.html", username_error = "Username already taken")
 
 
-    INSERT_STRING = f"INSERT INTO userdata VALUES(\"{userName}\",\"{request.form['password']}\", \"\", NULL);"
+    INSERT_STRING = f"INSERT INTO userdata VALUES('{userName}','{request.form['password']}', 'testcard', NULL);"
     USER_DB_CURSOR.execute(INSERT_STRING)
     print(request.form['username'] + ", " + request.form['password'] + ", " + INSERT_STRING)
     session['username'] = userName

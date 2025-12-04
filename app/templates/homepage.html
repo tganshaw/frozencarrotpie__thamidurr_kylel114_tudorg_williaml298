@@ -5,10 +5,19 @@
 
 <html>
 
+
 <div class="navbar">
   <a href='/'>Home</a>
   <a href = "/access" style = "margin-right:3vw; margin-left:3vw"> Profile Page</a>
   <a href="/logout">Log Out</a>
 </div class="navbar">
+
+<form action = "/addcard">
+  <input type = "TEXT" name = "TEST" placeholder="CARD ID"><br>
+  <input type= "SUBMIT">
+</form>
+
+Cards:<br>
+{{test | safe}}
 
 </html>
