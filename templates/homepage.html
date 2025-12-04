@@ -1,0 +1,31 @@
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<html class = "scroll-smooth bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
+
+
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<html class = "justify-items-center">
+
+
+<div class="navbar">
+  <a href='/'>Home</a>
+  <a href = "/access" style = "margin-right:3vw; margin-left:3vw"> Profile Page</a>
+  <a href = "/logout">Log Out</a>
+
+  <img src = "../static/titlestreach.png">
+
+</div>
+
+<form action = "/addcard">
+  <input type = "TEXT" name = "TEST" placeholder="CARD ID"><br>
+  <input type= "SUBMIT">
+</form>
+
+Cards:<br>
+{{test | safe}}
+
+</html>
