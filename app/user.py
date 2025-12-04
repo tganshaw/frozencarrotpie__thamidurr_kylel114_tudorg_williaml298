@@ -46,7 +46,8 @@ def add_card(user_id, card_id):
     cards = get_cards(user_id)
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
-    cursor.execute(f"UPDATE userdata SET cards = '{cards};{card_id}' WHERE id = {user_id};")
+    print(card_id)
+    cursor.execute(f"UPDATE userdata SET cards = \"{cards};{card_id}\" WHERE id = {user_id};")
     db.commit()
     db.close()
 
