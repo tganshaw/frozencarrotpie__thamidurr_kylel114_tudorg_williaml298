@@ -48,17 +48,7 @@ def homepagehtml():
     if 'username' in session:
         user_id = user.get_user_id(session['username'])
         cards = user.get_cards(user_id)
-        random_set = random.choice(os.listdir("data"))
-        random_set = random_set[:-5]
-        random_set = "sm1"
-        file = open(f"data/{random_set}.json", "r")
-        data = json.load(file)["cards"]
-        random_card = random.choice(data)
-        while random_card == data[0]:
-            random_card = random.choice(data)
-        random_card = random_card["id"]
 
-        user.add_card(user_id,random_card)
         return render_template("homepage.html", test = cards)
     else:
         return redirect("/login.html")
@@ -68,11 +58,30 @@ def homepagehtml():
 
 #----------------------------------------------------------
 
-@app.route("/addcard", methods = ["POST", "GET"])
-def addcard():
+@app.route("/pull", methods = ["POST", "GET"])
+def pull():
     if 'username' in session:
+        if 'count' in request.args:
+            num_pulls = int(request.args['count'])
+        else:
+            num_pulls = 1
         user_id = user.get_user_id(session['username'])
-        user.add_card(user_id,request.args['TEST'])
+        for i in range (num_pulls):
+            if "set" not in request.args:
+                random_set = random.choice(os.listdir("data"))
+                random_set = random_set[:-5]
+            else:
+                random_set = request.args['set']
+            file = open(f"data/{random_set}.json", "r")
+            data = json.load(file)["cards"]
+            random_card = random.choice(data)
+            while random_card == data[0]:
+                random_card = random.choice(data)
+            random_card = random_card["id"]
+
+            user.add_card(user_id,random_card)
+        if "set" in request.args:
+            return redirect(f"/displayset?SET={request.args['set']}")
         return redirect("/")
     return redirect("/")
 
@@ -98,16 +107,13 @@ def displayset():
         user_cards = user.get_cards(user.get_user_id(session["username"]))
         set_data = data
         data = data["cards"]
-        random_card = random.choice(data)
-        while random_card == data[0]:
-            random_card = random.choice(data)
-        random_card = random_card["id"]
 
-        user.add_card(user.get_user_id(session["username"]),random_card)
         title_data = ""
         title_data += f"{set_data['name']}"
         if "logo" in set_data:
             title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']}><br><br>"
+        title_data += f"<a href='/pull?set={set_id}'>Pull</a><br>"
+        title_data += f"<a href='/pull?set={set_id}&count=10'>Pull x10</a>"
         img_data = ""
         for card in data:
             if(not type(card) is int):
@@ -125,7 +131,7 @@ def displayset():
                     img_data += "</a>"
     else:
         return redirect("/")
-    return render_template("collection.html", imgs = img_data)
+    return render_template("collection.html", imgs = img_data, title = title_data)
 
 #----------------------------------------------------------
 
@@ -272,7 +278,7 @@ def register():
         return render_template("register.html", username_error = "Username already taken")
 
 
-    INSERT_STRING = f"INSERT INTO userdata VALUES('{userName}','{request.form['password']}', 'sm1-1', NULL);"
+    INSERT_STRING = f"INSERT INTO userdata VALUES('{userName}','{request.form['password']}', NULL, NULL);"
     USER_DB_CURSOR.execute(INSERT_STRING)
     print(request.form['username'] + ", " + request.form['password'] + ", " + INSERT_STRING)
     session['username'] = userName
