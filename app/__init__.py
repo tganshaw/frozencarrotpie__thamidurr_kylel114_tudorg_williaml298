@@ -124,11 +124,11 @@ def displayset():
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.png' class='{grayscale}'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.png' loading='lazy' class='{grayscale}'><br>\n"
                     img_data += "</a>"
                 else:
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = 'static/noimglow.png'><br>\n"
+                    img_data += f"<img src = 'static/noimglow.png' loading='lazy' ><br>\n"
                     img_data += "</a>"
     else:
         return redirect("/")
@@ -142,8 +142,11 @@ def display_collection():
         user_id = user.get_user_id(session["username"])
         img_data = ""
         cards_list = user.get_cards(user_id)
-        for card in cards_list:
-            info_arr = card.split("-")
+        if isinstance(cards_list,int):
+            img_data = "You have no cards."
+            return render_template("collection.html", imgs = img_data)
+        for each_card in cards_list:
+            info_arr = each_card.split("-")
             set_id = ""
             local_id = info_arr[-1]
 
@@ -151,21 +154,26 @@ def display_collection():
                 if i != local_id:
                     set_id += f"{i}-"
             set_id = set_id[:-1]
+            if("SWSH" in local_id):
+                local_id = local_id[4:]
+            if("BW" in local_id or "XY" in local_id or "SM" in local_id):
+                local_id = local_id[2:]
+            local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
+
             if os.path.exists(f"data/{set_id}.json"):
                 file = open(f"data/{set_id}.json", "r")
                 data = json.load(file)["cards"][int(local_id)]
                 if "image" in data:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
                     img_data += f"<a href='card/{data['id']}'>"
-                    img_data += f"<img src = '{data['image']}/low.png'><br>\n"
+                    img_data += f"<img src = '{data['image']}/low.png' loading='lazy'><br>\n"
                     img_data += "</a>"
                 else:
                     img_data += f"<a href='card/{data['id']}'>"
-                    img_data += f"<img src = 'static/noimglow.png'><br>\n"
+                    img_data += f"<img src = 'static/noimglow.png' loading='lazy'><br>\n"
                     img_data += "</a>"
 
-        if img_data == "":
-            img_data = "You have no cards."
+
         return render_template("collection.html", imgs = img_data)
 
 #----------------------------------------------------------
@@ -273,15 +281,13 @@ def register():
     USER_DB = sqlite3.connect(DB_NAME)
     USER_DB_CURSOR = USER_DB.cursor()
 
-    USER_DB_CURSOR.execute(f"SELECT COUNT(*) FROM userdata WHERE username = '{userName}';")
+    USER_DB_CURSOR.execute(f"SELECT COUNT(*) FROM userdata WHERE username = ?;",(userName,))
     alreadyExists = USER_DB_CURSOR.fetchone()[0]
     if(alreadyExists != 0):
         return render_template("register.html", username_error = "Username already taken")
 
 
-    INSERT_STRING = f"INSERT INTO userdata VALUES('{userName}','{request.form['password']}', NULL, NULL);"
-    USER_DB_CURSOR.execute(INSERT_STRING)
-    print(request.form['username'] + ", " + request.form['password'] + ", " + INSERT_STRING)
+    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL);",(userName,request.form["password"],))
     session['username'] = userName
 
     USER_DB.commit()
@@ -297,11 +303,12 @@ def login():
     USER_DB = sqlite3.connect(DB_NAME)
     USER_DB_CURSOR = USER_DB.cursor()
 
-    USER_DB_CURSOR.execute(f"SELECT COUNT(*) FROM userdata WHERE username = '{request.form['username']}';")
+    userName = request.form['username']
+    USER_DB_CURSOR.execute(f"SELECT COUNT(*) FROM userdata WHERE username = ?;",(userName,))
     alreadyExists = USER_DB_CURSOR.fetchone()[0]
     if(alreadyExists == 0):
         return render_template("login.html", username_error = "User does not exist")
-    USER_DB_CURSOR.execute(f"SELECT password FROM userdata WHERE username = '{request.form['username']}';")
+    USER_DB_CURSOR.execute(f"SELECT password FROM userdata WHERE username = ?;",(userName,))
     userPass = USER_DB_CURSOR.fetchone()[0]
     if(not userPass == request.form["password"]):
         return render_template("login.html", password_error = "Password is incorrect")

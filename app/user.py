@@ -40,7 +40,7 @@ def get_cards(user_id):
         cursorfetch = -1
     db.commit()
     db.close()
-    if(cursorfetch is not None):
+    if(cursorfetch is not None and cursorfetch != -1):
         return cursorfetch.split(";")
     return -1
 
