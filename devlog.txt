@@ -3,3 +3,6 @@ ThamidurR -- 2025-12-02 22:50\n
 
 TudorG -- 2025-12-03 11:30
 - Fixed some minor issues with database initializing so time in class could be better spent elsewhere
+
+TudorG -- 2025-12-04 6:30
+- Fixed issues with displaying user collections and adding cards to users' collections. Added a rudimentary form of the gacha system, and added all cached sets to data folder.

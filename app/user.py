@@ -40,14 +40,34 @@ def get_cards(user_id):
         cursorfetch = -1
     db.commit()
     db.close()
-    return cursorfetch.split(";")
+    if(cursorfetch is not None):
+        return cursorfetch.split(";")
+    return -1
 
 def add_card(user_id, card_id):
-    cards = get_cards(user_id)
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
-    print(card_id)
-    cursor.execute(f"UPDATE userdata SET cards = \"{cards};{card_id}\" WHERE id = {user_id};")
+    cards = get_cards(user_id)
+    if cards == -1:
+        cursor.execute(f"UPDATE userdata SET cards = \"{card_id}\" WHERE id = {user_id};")
+    else:
+        if card_id not in cards:
+            temp = ""
+            if cards != -1:
+                for c in cards:
+                    temp+=f"{c};"
+                cards = temp[:-1]
+            if cards != -1:
+                cursor.execute(f"UPDATE userdata SET cards = \"{cards};{card_id}\" WHERE id = {user_id};")
+            else:
+                cursor.execute(f"UPDATE userdata SET cards = \"{card_id}\" WHERE id = {user_id};")
+    db.commit()
+    db.close()
+
+def remove_cards(user_id):
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    cursor.execute(f"UPDATE userdata SET cards = NULL WHERE id = {user_id};")
     db.commit()
     db.close()
 

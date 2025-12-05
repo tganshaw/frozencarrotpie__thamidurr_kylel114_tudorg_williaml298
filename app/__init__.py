@@ -10,6 +10,7 @@ import json
 import sqlite3
 import user
 import card
+import random
 
 DB_NAME = "database.db"
 DB = sqlite3.connect(DB_NAME)
@@ -20,24 +21,24 @@ DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password T
 app = Flask(__name__)
 
 app.secret_key = "83ut83ojreoikdlshg3958u4wjtse09gol.hi"
-
-@app.route("/profile")
-def homepage():
-    if 'username' not in session:
-        return render_template("login.html")
-
-    if(not user.user_exists(session['username'])):
-        return redirect("/logout")
-
-    DB = sqlite3.connect(DB_NAME)
-    DB_CURSOR = DB.cursor()
-
-    DB_CURSOR.execute(f"SELECT id FROM userdata WHERE username =\"{session['username']}\";")
-    userId = DB_CURSOR.fetchone()[0]
-    session['userId'] = userId
-    numBlogs = blog.get_num_blogs(userId)
-    arr = blog.get_blog_links(userId)
-    return render_template("userprofile.html", username = session["username"], numblogs = numBlogs, blogs = blog.get_blogs(userId), txt = arr, owner = "true")
+#
+# @app.route("/profile")
+# def homepage():
+#     if 'username' not in session:
+#         return render_template("login.html")
+#
+#     if(not user.user_exists(session['username'])):
+#         return redirect("/logout")
+#
+#     DB = sqlite3.connect(DB_NAME)
+#     DB_CURSOR = DB.cursor()
+#
+#     DB_CURSOR.execute(f"SELECT id FROM userdata WHERE username =\"{session['username']}\";")
+#     userId = DB_CURSOR.fetchone()[0]
+#     session['userId'] = userId
+#     numBlogs = blog.get_num_blogs(userId)
+#     arr = blog.get_blog_links(userId)
+#     return render_template("userprofile.html", username = session["username"], numblogs = numBlogs, blogs = blog.get_blogs(userId), txt = arr, owner = "true")
 
 #----------------------------------------------------------
 
@@ -47,9 +48,22 @@ def homepagehtml():
     if 'username' in session:
         user_id = user.get_user_id(session['username'])
         cards = user.get_cards(user_id)
+        random_set = random.choice(os.listdir("data"))
+        random_set = random_set[:-5]
+        random_set = "sm1"
+        file = open(f"data/{random_set}.json", "r")
+        data = json.load(file)["cards"]
+        random_card = random.choice(data)
+        while random_card == data[0]:
+            random_card = random.choice(data)
+        random_card = random_card["id"]
+
+        user.add_card(user_id,random_card)
         return render_template("homepage.html", test = cards)
     else:
         return redirect("/login.html")
+
+
     return render_template("homepage.html",logged_in = loggedIn)
 
 #----------------------------------------------------------
@@ -62,6 +76,15 @@ def addcard():
         return redirect("/")
     return redirect("/")
 
+#----------------------------------------------------------
+
+@app.route("/removecards", methods=["POST","GET"])
+def remove_cards():
+    user.remove_cards(user.get_user_id(session["username"]))
+    return redirect("/")
+
+#----------------------------------------------------------
+
 @app.route("/displayset", methods=["POST","GET"])
 def displayset():
     if "SET" in request.args:
@@ -70,9 +93,17 @@ def displayset():
             file = open(f"data/{set_id}.json", "r")
             data = json.load(file)
         else:
-            return redirect(f"/cache?SET={set_id}")
+            return "Set doesn't exist. Sorry"
+
+        user_cards = user.get_cards(user.get_user_id(session["username"]))
         set_data = data
         data = data["cards"]
+        random_card = random.choice(data)
+        while random_card == data[0]:
+            random_card = random.choice(data)
+        random_card = random_card["id"]
+
+        user.add_card(user.get_user_id(session["username"]),random_card)
         title_data = ""
         title_data += f"{set_data['name']}"
         if "logo" in set_data:
@@ -80,20 +111,31 @@ def displayset():
         img_data = ""
         for card in data:
             if(not type(card) is int):
+                grayscale = "grayscale"
+                if card["id"] in user_cards:
+                    grayscale = "grayscale-0"
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.png'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.png' class='{grayscale}'><br>\n"
                     img_data += "</a>"
                 else:
                     img_data += f"<a href='card/{card['id']}'>"
                     img_data += f"<img src = 'static/noimglow.png'><br>\n"
                     img_data += "</a>"
-    if "ID" in request.args:
+    else:
+        return redirect("/")
+    return render_template("collection.html", imgs = img_data)
+
+#----------------------------------------------------------
+
+@app.route("/displaycollection")
+def display_collection():
+    if "username" in session:
+        user_id = user.get_user_id(session["username"])
         img_data = ""
-        cards_list = user.get_cards(request.args["ID"])
+        cards_list = user.get_cards(user_id)
         for card in cards_list:
-            print(card)
             info_arr = card.split("-")
             set_id = ""
             local_id = info_arr[-1]
@@ -102,19 +144,22 @@ def displayset():
                 if i != local_id:
                     set_id += f"{i}-"
             set_id = set_id[:-1]
-            file = open(f"data/{set_id}.json", "r")
-            data = json.load(file)["cards"][int(local_id)]
-            if "image" in data:
-            # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
-                img_data += f"<a href='card/{data['id']}'>"
-                img_data += f"<img src = '{data['image']}/low.png'><br>\n"
-                img_data += "</a>"
-            else:
-                img_data += f"<a href='card/{data['id']}'>"
-                img_data += f"<img src = 'static/noimglow.png'><br>\n"
-                img_data += "</a>"
+            if os.path.exists(f"data/{set_id}.json"):
+                file = open(f"data/{set_id}.json", "r")
+                data = json.load(file)["cards"][int(local_id)]
+                if "image" in data:
+                # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
+                    img_data += f"<a href='card/{data['id']}'>"
+                    img_data += f"<img src = '{data['image']}/low.png'><br>\n"
+                    img_data += "</a>"
+                else:
+                    img_data += f"<a href='card/{data['id']}'>"
+                    img_data += f"<img src = 'static/noimglow.png'><br>\n"
+                    img_data += "</a>"
 
-    return render_template("collection.html", imgs = img_data)
+        if img_data == "":
+            img_data = "You have no cards."
+        return render_template("collection.html", imgs = img_data)
 
 #----------------------------------------------------------
 
@@ -124,7 +169,7 @@ def get_card_info(card_id):
     info_arr = card_id.split("-")
     set_id = ""
     local_id = info_arr[-1]
-    print(local_id)
+
 
     for i in info_arr:
         if i != local_id:
