@@ -116,10 +116,11 @@ def displayset():
         title_data += f"<a href='/pull?set={set_id}&count=10'>Pull x10</a>"
         img_data = ""
         for card in data:
-            if(not type(card) is int):
+            if not isinstance(card,int):
                 grayscale = "grayscale"
-                if card["id"] in user_cards:
-                    grayscale = "grayscale-0"
+                if not isinstance(user_cards, int):
+                    if card['id'] in user_cards:
+                        grayscale = "grayscale-0"
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
