@@ -96,6 +96,8 @@ def remove_cards():
 
 @app.route("/displayset", methods=["POST","GET"])
 def displayset():
+    if 'username' not in session:
+        return redirect("/")
     if "SET" in request.args:
         set_id = request.args["SET"]
         if os.path.exists(f"data/{set_id}.json"):
