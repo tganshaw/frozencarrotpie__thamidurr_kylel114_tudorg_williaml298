@@ -180,6 +180,20 @@ def display_collection():
 
 #----------------------------------------------------------
 
+@app.route("/setlist")
+def setlist():
+    set_files = os.listdir("data")
+    set_info = ""
+    for set_name in set_files:
+        file = open(f"data/{set_name}", "r")
+        set = json.load(file)
+        if "logo" in set:
+            set_info += f"<img src = '{set['logo']}'>"
+        set_info += f"<a href = '/displayset?SET={set['id']}'>{set['name']}</a><br>"
+    return render_template("sets.html", sets = set_info)
+
+#----------------------------------------------------------
+
 @app.route("/card/<string:card_id>", methods=["POST","GET"])
 def get_card_info(card_id):
 
