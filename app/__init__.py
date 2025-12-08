@@ -158,7 +158,7 @@ def display_collection():
             set_id = set_id[:-1]
             if("SWSH" in local_id):
                 local_id = local_id[4:]
-            if("BW" in local_id or "XY" in local_id or "SM" in local_id):
+            if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id):
                 local_id = local_id[2:]
             local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 
@@ -183,13 +183,18 @@ def display_collection():
 @app.route("/setlist")
 def setlist():
     set_files = os.listdir("data")
+    set_files.sort()
     set_info = ""
     for set_name in set_files:
         file = open(f"data/{set_name}", "r")
         set = json.load(file)
+        set_info += "<div class = 'flex'>"
         if "logo" in set:
-            set_info += f"<img src = '{set['logo']}'>"
+            set_info += "<div class='w-[50px] h-[50px]'>"
+            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down'>"
+            set_info += "</div>"
         set_info += f"<a href = '/displayset?SET={set['id']}'>{set['name']}</a><br>"
+        set_info += "</div>"
     return render_template("sets.html", sets = set_info)
 
 #----------------------------------------------------------
