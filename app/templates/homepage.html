@@ -2,25 +2,46 @@
 
 <html class = "scroll-smooth bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
 
-
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
+<main class="flex-1 flex items-center justify-center">
+  <section class="flex flex-col items-center justify-center gap-8 px-4">
+    <header class="w-full">
+      <div class="grid grid-cols-3 items-center w-full">
+        <div class="flex items-center pl-4">
+          <a href="/logout">
+            <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
+              Log Out
+            </button>
+          </a>
+        </div>
 
-<div class="navbar flex justify-center items-center w-4/5">
-  <a href='/'>Home</a>
-  <a href = "/displaycollection" style = "margin-right:3vw; margin-left:3vw"> Profile Page</a>
-  <a href = "/logout">Log Out</a>
+        <!-- CENTER: Title image (keeps centered) -->
+        <div class="flex justify-center">
+          <a href="/">
+            <img src="../static/title.png" alt="Title graphic" class="w-[40rem] max-w-full h-auto object-contain"/>
+          </a>
+        </div>
 
-  <img class="mb-[-90]" src = "../static/titlestreach.png">
-</div>
+      </div>
+    </header>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-3xl grid grid-cols-1 place-items-center h-1/900">
+      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 text-[200%] px-40 py-10">
+        Battle
+      </button>
 
-<div class="flex justify-center items-center w-54/55 h-1/900 grid grid-cols-1 place-items-center mt-auto">
-  <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium text-[200%] px-4 py-2.5 text-center leading-5 rounded-4xl text-base px-40 py-10">Battle</button>
-  <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium text-[200%] px-4 py-2.5 text-center leading-5 rounded-4xl text-base px-40 py-10">Profile</button>
-  <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium text-[200%] px-4 py-2.5 text-center leading-5 rounded-4xl text-base px-40 py-10">Poke-Dex</button>
-</div>
+      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-[200%] px-40 py-10">
+        Profile
+      </button>
+
+      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 text-[200%] px-40 py-10">
+        Pokedex
+      </button>
+    </div>
+  </section>
+</main>
 
 
 <div class="bg-white w-[20%]">
