@@ -9,3 +9,6 @@ TudorG -- 2025-12-04 6:30
 
 TudorG --2025-12-08 10:30
 - Fixed issues with displaying and the profile button, as well as with a certain set
+
+Williaml --2025-12-09 10:59
+- Working on styling with tailwind on login.html
