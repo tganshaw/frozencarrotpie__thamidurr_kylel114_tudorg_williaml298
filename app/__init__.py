@@ -16,7 +16,7 @@ DB_NAME = "database.db"
 DB = sqlite3.connect(DB_NAME)
 DB_CURSOR = DB.cursor()
 
-DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
+DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, deck TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
 
 app = Flask(__name__)
 
@@ -332,7 +332,7 @@ def register():
         return render_template("register.html", username_error = "Username already taken")
 
 
-    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL);",(userName,request.form["password"],))
+    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL, NULL);",(userName,request.form["password"],))
     session['username'] = userName
 
     USER_DB.commit()
