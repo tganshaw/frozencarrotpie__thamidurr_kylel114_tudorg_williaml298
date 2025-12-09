@@ -46,6 +46,8 @@ app.secret_key = "83ut83ojreoikdlshg3958u4wjtse09gol.hi"
 def homepagehtml():
     loggedIn = "false"
     if 'username' in session:
+        if user.get_user_id(session['username']) == -1:
+            return redirect("/login.html")
         user_id = user.get_user_id(session['username'])
         cards = user.get_cards(user_id)
         deck = user.get_deck(user_id)
@@ -94,6 +96,14 @@ def remove_cards():
     user.remove_cards(user_id)
     user.remove_deck(user_id)
     return redirect("/")
+
+#----------------------------------------------------------
+
+@app.route("/remove_deck", methods=["POST","GET"])
+def remove_from_deck():
+    user_id = user.get_user_id(session["username"])
+    user.remove_card_from_deck(user_id, request.args["id"])
+    return redirect(f"/card/{request.args['id']}")
 
 #----------------------------------------------------------
 
@@ -159,7 +169,7 @@ def display_collection():
     if "username" in session:
         user_id = user.get_user_id(session["username"])
         img_data = ""
-        cards_list = user.get_cards(user_id)
+        cards_list = user.get_deck(user_id)
         if isinstance(cards_list,int):
             img_data = "You have no cards."
             return render_template("collection.html", imgs = img_data)
@@ -220,11 +230,16 @@ def get_card_info(card_id):
 
     user_id = user.get_user_id(session["username"])
     user_cards = user.get_cards(user_id)
+    deck = user.get_deck(user_id)
 
     user_owns = "false"
+    in_deck = "false"
     if user_cards != -1:
         if card_id in user_cards:
             user_owns = "true"
+        if deck != -1:
+            if card_id in deck:
+                in_deck = "true"
 
     info_arr = card_id.split("-")
     set_id = ""
@@ -287,7 +302,7 @@ def get_card_info(card_id):
             card_info += f"Retreat Cost: {data['retreat']}<br>\n"
 
 
-    return render_template("card.html", card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
+    return render_template("card.html", in_deck = in_deck, card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
 
 
 

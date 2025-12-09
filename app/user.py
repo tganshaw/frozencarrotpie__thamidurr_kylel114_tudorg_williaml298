@@ -87,6 +87,7 @@ def add_card(user_id, card_id):
     cursor = db.cursor()
     cards = get_cards(user_id)
     if cards == -1:
+        print(card_id)
         cursor.execute(f"UPDATE userdata SET cards = \"{card_id}\" WHERE id = {user_id};")
     else:
         if card_id not in cards:
@@ -106,6 +107,21 @@ def remove_cards(user_id):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
     cursor.execute(f"UPDATE userdata SET cards = NULL WHERE id = {user_id};")
+    db.commit()
+    db.close()
+
+def remove_card_from_deck(user_id, card_id):
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    deck = get_deck(user_id)
+    if deck != -1:
+        if card_id not in deck:
+            return -1
+        deck.remove(card_id)
+        deck = ";".join(deck)
+        cursor.execute(f"UPDATE userdata SET deck = '{deck}' WHERE id = {user_id}")
+    else:
+        return -1
     db.commit()
     db.close()
 

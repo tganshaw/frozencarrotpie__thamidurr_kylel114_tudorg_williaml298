@@ -32,10 +32,17 @@
 <ul>
 <br><br>
 
-{% if owned == "true" %}
-  <a href = "/add_deck?id={{card_id}}">Add Card to Deck</a>
-  <br>
-{% endif %}
+
+  {% if owned == "true" %}
+    {% if in_deck == "false" %}
+      <a href = "/add_deck?id={{card_id}}">Add Card to Deck</a>
+    {% else %}
+      <a href = "/remove_deck?id={{card_id}}">Remove Card from Deck</a>
+    {% endif %}
+    <br>
+  {% endif %}
+
+
 
 {{card_img | safe}}
 {{card_data | safe}}
