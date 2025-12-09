@@ -48,8 +48,9 @@ def homepagehtml():
     if 'username' in session:
         user_id = user.get_user_id(session['username'])
         cards = user.get_cards(user_id)
+        deck = user.get_deck(user_id)
 
-        return render_template("homepage.html", test = cards)
+        return render_template("homepage.html", test = cards, test2 = deck)
     else:
         return redirect("/login.html")
 
@@ -89,8 +90,23 @@ def pull():
 
 @app.route("/removecards", methods=["POST","GET"])
 def remove_cards():
-    user.remove_cards(user.get_user_id(session["username"]))
+    user_id = user.get_user_id(session["username"])
+    user.remove_cards(user_id)
+    user.remove_deck(user_id)
     return redirect("/")
+
+#----------------------------------------------------------
+
+@app.route("/add_deck", methods=["POST","GET"])
+def add_to_deck():
+    if "id" not in request.args:
+        return redirect("/")
+
+    card_id = request.args["id"]
+    user_id = user.get_user_id(session["username"])
+    user.add_card_to_deck(user_id,card_id)
+    return redirect(f"/card/{card_id}")
+
 
 #----------------------------------------------------------
 
@@ -202,6 +218,14 @@ def setlist():
 @app.route("/card/<string:card_id>", methods=["POST","GET"])
 def get_card_info(card_id):
 
+    user_id = user.get_user_id(session["username"])
+    user_cards = user.get_cards(user_id)
+
+    user_owns = "false"
+    if user_cards != -1:
+        if card_id in user_cards:
+            user_owns = "true"
+
     info_arr = card_id.split("-")
     set_id = ""
     local_id = info_arr[-1]
@@ -263,7 +287,7 @@ def get_card_info(card_id):
             card_info += f"Retreat Cost: {data['retreat']}<br>\n"
 
 
-    return render_template("card.html", card_img = img_data, card_data = card_info)
+    return render_template("card.html", card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
 
 
 

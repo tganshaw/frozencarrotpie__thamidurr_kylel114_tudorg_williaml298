@@ -32,6 +32,10 @@
 <ul>
 <br><br>
 
+{% if owned == "true" %}
+  <a href = "/add_deck?id={{card_id}}">Add Card to Deck</a>
+  <br>
+{% endif %}
 
 {{card_img | safe}}
 {{card_data | safe}}

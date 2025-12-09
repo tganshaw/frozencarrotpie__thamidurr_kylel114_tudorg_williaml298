@@ -6,3 +6,6 @@ TudorG -- 2025-12-03 11:30
 
 TudorG -- 2025-12-04 6:30
 - Fixed issues with displaying user collections and adding cards to users' collections. Added a rudimentary form of the gacha system, and added all cached sets to data folder.
+
+TudorG --2025-12-08 10:30
+- Fixed issues with displaying and the profile button, as well as with a certain set
