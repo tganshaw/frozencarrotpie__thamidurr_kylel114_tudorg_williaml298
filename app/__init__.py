@@ -231,9 +231,12 @@ def setlist():
         set_info += "<div class = 'flex'>"
         if "logo" in set:
             set_info += "<div class='w-[50px] h-[50px]'>"
+            set_info += "<button class='w-72 h-72 rounded-full bg-blue-500 hover:bg-red-500 text-white'>"
             set_info += f"<img src = '{set['logo']}' class = 'object-scale-down'>"
+            set_info += "</button>"
             set_info += "</div>"
-        set_info += f"<a href = '/displayset?SET={set['id']}'>{set['name']}</a><br>"
+            set_info += f"<a href = '/displayset?SET={set['id']}'></a><br>"
+        #set_info += f"<a href = '/displayset?SET={set['id']}'>{set['name']}</a><br>"
         set_info += "</div>"
     return render_template("sets.html", sets = set_info)
 
