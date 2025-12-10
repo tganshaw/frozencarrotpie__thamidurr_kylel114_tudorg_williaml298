@@ -2,17 +2,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-<html>
+<meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+
+
+<html class = "justify-items-center">
 
 {{title | safe}}
 <br><br>
 
-<div class = "flex flex-wrap w-full">
+<div class = "object-center flex flex-wrap w-[90%] pl-[5%] mb-[5%]">
 
-{{imgs | safe}}
+{% if deck != -1 %}
+
+{{deck | safe}}
+<br><br>
+
+{% endif %}
+
 </div>
 
-
+<div class = "flex flex-wrap w-[80%] pl-[10%] ml-[10%] h-90 overflow-y-auto">
+{% if cards != -1 %}
+{{cards | safe}}
+{% endif %}
+</div>
 
 
 

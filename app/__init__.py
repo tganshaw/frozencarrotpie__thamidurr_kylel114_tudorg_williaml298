@@ -137,7 +137,7 @@ def displayset():
         title_data += f"{set_data['name']}"
         if "logo" in set_data:
             title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']}><br><br>"
-        title_data += f"<a href='/pull?set={set_id}'>Pull</a><br>"
+        title_data += f"<br><a href='/pull?set={set_id}'>Pull</a><br>"
         title_data += f"<a href='/pull?set={set_id}&count=10'>Pull x10</a>"
         img_data = ""
         for card in data:
@@ -151,21 +151,23 @@ def displayset():
                     img_data += f"<a href='card/{card['id']}'>"
                     img_data += f"<img src = '{card['image']}/low.png' loading='lazy' class='{grayscale}'><br>\n"
                     img_data += "</a>"
-                else:
-                    img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = 'static/noimglow.png' loading='lazy' ><br>\n"
-                    img_data += "</a>"
+                # else:
+                #     img_data += f"<a href='card/{card['id']}'>"
+                #     img_data += f"<img src = 'static/noimglow.png' loading='lazy' ><br>\n"
+                #     img_data += "</a>"
     else:
         return redirect("/")
-    return render_template("collection.html", imgs = img_data, title = title_data)
+    if img_data == "":
+        return render_template("collection.html", title = title_data, deck = "Set has no images")
+    return render_template("collection.html", deck = img_data, title = title_data)
 
 #----------------------------------------------------------
 
 @app.route("/displaycollection")
 def display_collec():
-    info = "<a href = '/displaycollection/cards'>Cards</a>"
-    info += "<br><a href = '/displaycollection/deck'>Deck</a><br>"
-    return render_template("collection.html", title = info)
+    card_info = display_collection("cards")
+    deck_info = display_collection("deck")
+    return render_template("collection.html", deck = deck_info, cards = card_info)
 
 #----------------------------------------------------------
 
@@ -179,8 +181,9 @@ def display_collection(type):
         if type == "deck":
             cards_list = user.get_deck(user_id)
         if isinstance(cards_list,int):
-            img_data = "You have no cards."
-            return render_template("collection.html", imgs = img_data)
+            # img_data = "You have no cards."
+            return -1
+            # return render_template("collection.html", imgs = img_data)
         for each_card in cards_list:
             info_arr = each_card.split("-")
             set_id = ""
@@ -201,16 +204,19 @@ def display_collection(type):
                 data = json.load(file)["cards"][int(local_id)]
                 if "image" in data:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
+                    img_data += "<div class='object-center'>"
                     img_data += f"<a href='/card/{data['id']}'>"
                     img_data += f"<img src = '{data['image']}/low.png' loading='lazy'><br>\n"
                     img_data += "</a>"
+                    img_data += "</div>"
                 else:
+                    img_data += "<div class ='object-center'>"
                     img_data += f"<a href='/card/{data['id']}'>"
                     img_data += f"<img src = 'static/noimglow.png' loading='lazy'><br>\n"
                     img_data += "</a>"
+                    img_data += "</div>"
 
-
-        return render_template("collection.html", imgs = img_data)
+        return img_data
 
 #----------------------------------------------------------
 
