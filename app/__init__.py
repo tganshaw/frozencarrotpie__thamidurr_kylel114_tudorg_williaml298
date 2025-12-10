@@ -6,11 +6,20 @@ DB_NAME = "database.db"
 DB = sqlite3.connect(DB_NAME)
 DB_CURSOR = DB.cursor()
 
-DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
+DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, deck TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
 
 app = Flask(__name__)
 app.secret_key = "83ut83ojreoikdlshg3958u4wjtse09gol.hi"
 #
+
+@app.before_request
+def before_request():
+    print(request.endpoint)
+    pages = ['login', 'register', 'loginhtml', 'registerhtml']
+    if request.endpoint not in pages:
+        if 'username' not in session or user.get_user_id(session['username']) == -1:
+            return redirect("/login.html")
+
 # @app.route("/profile")
 # def homepage():
 #     if 'username' not in session:
@@ -347,7 +356,7 @@ def register():
         return render_template("register.html", username_error = "Username already taken")
 
 
-    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL);",(userName,request.form["password"],))
+    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL, NULL);",(userName,request.form["password"],))
     session['username'] = userName
 
     USER_DB.commit()
