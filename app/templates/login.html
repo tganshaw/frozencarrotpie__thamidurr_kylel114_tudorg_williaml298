@@ -11,18 +11,24 @@
 
   </head>
 
-  <div>
-  <h1 class="text-blue-600 dark:text-sky-400"> Login: </h1>
+  <body class="bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages8.alphacoders.com%2F662%2Fthumb-1920-662118.png&f=1&nofb=1&ipt=67c482e360c2e6ed360dbc4a62adf0128a38554e217a1e936d7a6246623d5827')] bg-cover">
+
+  <div class = "text-4xl text-center pt-75 font-bold font-georgia text-black">
+  <h1> Login: </h1>
 
   <form action = "/login" method="POST">
-    <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+
       Username: <input type="TEXT" name="username"> &nbsp;{{username_error}} <br>
-      Password: &nbsp;<input type="password" name="password"> &nbsp;{{password_error}} <br>
-    </div>
-    <br>
-    <input type="SUBMIT">
+      Password:  &nbsp;<input type="password" name="password"> &nbsp;{{password_error}} <br>
+
+
+    <input type="SUBMIT" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+
   </form>
+
   <a href = "/register.html"> Register </a>
+
+  </div>
 
 
 
