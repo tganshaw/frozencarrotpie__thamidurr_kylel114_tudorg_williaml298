@@ -12,3 +12,6 @@ TudorG --2025-12-08 10:30
 
 Williaml --2025-12-09 10:59
 - Working on styling with tailwind on login.html
+
+TudorG -- 2025-12-09 10:30
+- Started implementing deck system

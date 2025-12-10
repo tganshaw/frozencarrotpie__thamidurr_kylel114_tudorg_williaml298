@@ -85,7 +85,7 @@ def remove_cards():
 
 #----------------------------------------------------------
 
-<<<<<<< HEAD
+
 @app.route("/remove_deck", methods=["POST","GET"])
 def remove_from_deck():
     user_id = user.get_user_id(session["username"])
@@ -107,8 +107,7 @@ def add_to_deck():
 
 #----------------------------------------------------------
 
-=======
->>>>>>> e6f5f6e84575cacf15ec75dae5210ff4fe3db455
+
 @app.route("/displayset", methods=["POST","GET"])
 def displayset():
     if 'username' not in session:
@@ -154,11 +153,22 @@ def displayset():
 #----------------------------------------------------------
 
 @app.route("/displaycollection")
-def display_collection():
+def display_collec():
+    info = "<a href = '/displaycollection/cards'>Cards</a>"
+    info += "<br><a href = '/displaycollection/deck'>Deck</a><br>"
+    return render_template("collection.html", title = info)
+
+#----------------------------------------------------------
+
+@app.route("/displaycollection/<string:type>")
+def display_collection(type):
     if "username" in session:
         user_id = user.get_user_id(session["username"])
         img_data = ""
-        cards_list = user.get_deck(user_id)
+        if type == "cards":
+            cards_list = user.get_cards(user_id)
+        if type == "deck":
+            cards_list = user.get_deck(user_id)
         if isinstance(cards_list,int):
             img_data = "You have no cards."
             return render_template("collection.html", imgs = img_data)
@@ -182,11 +192,11 @@ def display_collection():
                 data = json.load(file)["cards"][int(local_id)]
                 if "image" in data:
                 # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
-                    img_data += f"<a href='card/{data['id']}'>"
+                    img_data += f"<a href='/card/{data['id']}'>"
                     img_data += f"<img src = '{data['image']}/low.png' loading='lazy'><br>\n"
                     img_data += "</a>"
                 else:
-                    img_data += f"<a href='card/{data['id']}'>"
+                    img_data += f"<a href='/card/{data['id']}'>"
                     img_data += f"<img src = 'static/noimglow.png' loading='lazy'><br>\n"
                     img_data += "</a>"
 
@@ -291,11 +301,8 @@ def get_card_info(card_id):
             card_info += f"Retreat Cost: {data['retreat']}<br>\n"
 
 
-<<<<<<< HEAD
     return render_template("card.html", in_deck = in_deck, card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
-=======
-    return render_template("card.html", card_img = img_data, card_data = card_info)
->>>>>>> e6f5f6e84575cacf15ec75dae5210ff4fe3db455
+
 
 
 
