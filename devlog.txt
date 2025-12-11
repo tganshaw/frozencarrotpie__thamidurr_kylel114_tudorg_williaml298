@@ -18,3 +18,6 @@ TudorG -- 2025-12-09 10:30
 
 Williaml --2025-12-10 10:58
 - Added background image and styling to login.html
+
+TudorG -- 2025-12-10 10:30
+- Fixed styling for collection, dex, and set pages
