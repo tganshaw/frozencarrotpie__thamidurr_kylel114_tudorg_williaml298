@@ -6,7 +6,7 @@ DB_NAME = "database.db"
 DB = sqlite3.connect(DB_NAME)
 DB_CURSOR = DB.cursor()
 
-DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, deck TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
+DB_CURSOR.execute("CREATE TABLE IF NOT EXISTS userdata(username TEXT, password TEXT, cards TEXT, deck TEXT, currency INT, id INTEGER PRIMARY KEY AUTOINCREMENT);")
 
 app = Flask(__name__)
 app.secret_key = "83ut83ojreoikdlshg3958u4wjtse09gol.hi"
@@ -77,6 +77,8 @@ def pull():
             random_card = random.choice(data)
             while random_card == data[0]:
                 random_card = random.choice(data)
+                if not "image" in random_card:
+                    random_card = data[0]
             random_card = random_card["id"]
 
             user.add_card(user_id,random_card)
@@ -134,11 +136,13 @@ def displayset():
         data = data["cards"]
 
         title_data = ""
-        title_data += f"{set_data['name']}"
+        title_data += f"<p class='p-2'>{set_data['name']}</p>\n"
         if "logo" in set_data:
-            title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']}><br><br>"
-        title_data += f"<br><a href='/pull?set={set_id}'>Pull</a><br>"
-        title_data += f"<a href='/pull?set={set_id}&count=10'>Pull x10</a>"
+            title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']} class='p-2'><br><br>\n"
+        title_data += "<div class='flex bg-white w-[40%] p-2 rounded-full'>"
+        title_data += f"<br><a href='/pull?set={set_id}' class='p-2'>Pull</a><br>\n"
+        title_data += f"<a href='/pull?set={set_id}&count=10' class='p-2'>Pull x10</a>\n"
+        title_data += "</div>"
         img_data = ""
         for card in data:
             if not isinstance(card,int):
@@ -158,8 +162,8 @@ def displayset():
     else:
         return redirect("/")
     if img_data == "":
-        return render_template("collection.html", title = title_data, deck = "Set has no images")
-    return render_template("collection.html", deck = img_data, title = title_data)
+        return render_template("collection.html", title = title_data, deck = "Set has no images", cards = -1)
+    return render_template("collection.html", deck = img_data, title = title_data, cards = -1)
 
 #----------------------------------------------------------
 
@@ -229,11 +233,17 @@ def setlist():
         file = open(f"data/{set_name}", "r")
         set = json.load(file)
         set_info += "<div class = 'flex'>"
-        if "logo" in set:
-            set_info += "<div class='w-[50px] h-[50px]'>\n"
+
+        image_count = 0
+        for card in set["cards"]:
+            if not isinstance(card,int):
+                if "image" in card:
+                    image_count+= 1
+        if "logo" in set and image_count > 0:
+            set_info += "<div class='w-[50px] h-[50px] m-5'>\n"
             set_info+= f"<a href = '/displayset?SET={set['id']}'>"
             set_info += "<button class='w-[50px] h-[50px] rounded-full bg-blue-500 hover:bg-red-500 text-white' >\n"
-            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down object-center'>\n"
+            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down object-center' loading='lazy'>\n"
             set_info += "</button>\n"
             set_info += "</a><br>\n"
             set_info += "</div>\n"
@@ -358,7 +368,8 @@ def register():
     userName = temp
     if(len(userName) < 1):
         return render_template("register.html", username_error = "Please enter a valid username")
-
+    if(len(request.form["password"]) < 1):
+        return render_template("register.html", password_error = "Please enter a valid password")
     USER_DB = sqlite3.connect(DB_NAME)
     USER_DB_CURSOR = USER_DB.cursor()
 
@@ -368,7 +379,7 @@ def register():
         return render_template("register.html", username_error = "Username already taken")
 
 
-    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL, NULL);",(userName,request.form["password"],))
+    USER_DB_CURSOR.execute("INSERT INTO userdata VALUES(?,?, NULL, NULL, 0, NULL);",(userName,request.form["password"],))
     session['username'] = userName
 
     USER_DB.commit()

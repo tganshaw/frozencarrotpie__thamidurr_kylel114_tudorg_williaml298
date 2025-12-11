@@ -132,6 +132,27 @@ def remove_deck(user_id):
     db.commit()
     db.close()
 
+def get_currency(user_id):
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    cursor.execute(f"SELECT currency FROM userdata WHERE id = {user_id};")
+    cursorfetch = cursor.fetchone()
+    if(cursorfetch is not None):
+        cursorfetch = cursorfetch[0]
+    else:
+        cursorfetch = -1
+    db.commit()
+    db.close()
+    return cursorfetch
+
+def add_currency(user_id, amt):
+    db = sqlite3.connect(DB_NAME)
+    cursor = db.cursor()
+    currency = user.get_currency(user_id)
+    cursor.execute(f"UPDATE userdata SET currency = {currency + amt} WHERE id = {user_id};")
+    db.commit()
+    db.close()
+
 def user_exists(username):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
