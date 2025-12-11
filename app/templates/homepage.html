@@ -3,31 +3,35 @@
 <html class = "scroll-smooth bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<nav class="flex-1 flex items-left justify-left">
-  <section>
-    <header class="flex mt-[10%] pl-4 items-center w-full w-full">
-      <a href="/logout">
-        <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
-          Log Out
-        </button>
-      </a>
-      <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 "/>
-    </header>
-  </section>
-</nav>
+<main class="flex-1 flex items-center justify-center">
+  <section class="flex flex-col items-center justify-center gap-8 px-4">
+    <header class="w-full">
+      <div class="grid grid-cols-3 items-center w-full">
+        <div class="flex items-center mt-[-15%] pl-4">
+          <a href="/logout">
+            <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
+              Log Out
+            </button>
+          </a>
+          <div style="position: absolute; left: 85.2%;">
+            <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 object-right "/>
 
-<body class="flex items-left justify-center">
-    <div class="flex gap-4 w-full grid grid-cols-1 place-items-center h-1/900 justify-center">
-      <div class="flex justify-center">
-        <a href="/">
-          <img src="../static/title.png" alt="Title graphic" class="w-[40rem] max-w-full h-auto object-contain"/>
-        </a>
+            <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">2</p>
+
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <a href="/">
+            <img src="../static/title.png" alt="Title graphic" class="w-[40rem] max-w-full h-auto object-contain"/>
+          </a>
+        </div>
       </div>
+    </header>
 
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-3xl grid grid-cols-1 place-items-center h-1/900">
       <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 text-[200%] px-30 py-10">
         Battle
       </button>
@@ -40,7 +44,9 @@
         <a href = "/setlist"> Pokedex </a>
       </button>
     </div>
-</body>
+  </section>
+</main>
+
 
 <div class="bg-white w-[20%]">
 <form action = "/addcard">
@@ -53,9 +59,5 @@
 <br><br>
 <a href = "/displaycollection">Cards:</a><br>
 {{test | safe}}
-<br>
-<a href = "/displaycollection">Deck:</a><br>
-{{test2 | safe}}
 </div>
-
 </html>
