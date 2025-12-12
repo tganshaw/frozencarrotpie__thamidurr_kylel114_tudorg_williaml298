@@ -48,8 +48,9 @@ def homepagehtml():
             return redirect("/login.html")
         user_id = user.get_user_id(session['username'])
         cards = user.get_cards(user_id)
+        currency = user.get_currency(user_id)
 
-        return render_template("homepage.html", test = cards)
+        return render_template("homepage.html", currency = currency, test = cards)
     else:
         return redirect("/login.html")
 
@@ -118,6 +119,12 @@ def add_to_deck():
 
 #----------------------------------------------------------
 
+@app.route("/addcurrency", methods=["POST","GET"])
+def add_currency():
+    user_id = user.get_user_id(session["username"])
+    user.add_currency(user_id,request.args["count"])
+    return redirect(request.args["page"])
+#----------------------------------------------------------
 
 @app.route("/displayset", methods=["POST","GET"])
 def displayset():
