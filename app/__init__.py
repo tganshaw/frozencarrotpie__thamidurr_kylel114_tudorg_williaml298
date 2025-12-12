@@ -60,6 +60,12 @@ def homepagehtml():
 
 #----------------------------------------------------------
 
+@app.route("/pull.html", methods=["POST","GET"])
+def pullhtml():
+    return render_template("pull.html")
+
+#----------------------------------------------------------
+
 @app.route("/pull", methods = ["POST", "GET"])
 def pull():
     if 'username' in session:
@@ -359,7 +365,8 @@ def loginhtml():
 @app.route("/register.html")
 def registerhtml():
     if 'username' in session:
-        return redirect("/")
+        if user.get_user_id(session["username"]) != -1:
+            return redirect("/")
     return render_template("register.html")
 
 #----------------------------------------------------------
