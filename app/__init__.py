@@ -14,10 +14,11 @@ app.secret_key = "83ut83ojreoikdlshg3958u4wjtse09gol.hi"
 
 @app.before_request
 def before_request():
-    print(request.endpoint)
-    pages = ['login', 'register', 'loginhtml', 'registerhtml']
+    # print(request.endpoint)
+    pages = ['login', 'register', 'loginhtml', 'registerhtml', 'homepagehtml', 'login.html', 'register.html']
     if request.endpoint not in pages:
         if 'username' not in session or user.get_user_id(session['username']) == -1:
+            session.pop("username", None)
             return redirect("/login.html")
 
 # @app.route("/profile")
@@ -349,7 +350,8 @@ def get_card_info(card_id):
 @app.route("/login.html")
 def loginhtml():
     if 'username' in session:
-        return redirect("/")
+        if user.get_user_id(session["username"]) != -1:
+            return redirect("/")
     return render_template("login.html")
 
 #----------------------------------------------------------
