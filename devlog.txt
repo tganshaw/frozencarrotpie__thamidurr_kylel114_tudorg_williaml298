@@ -27,3 +27,6 @@ WilliamL -- 2025-12-11 10:58
 
 KyleL -- 2025-12-11 10:58
 - Started styling register page
+
+TudorG -- 2025-12-11 10:30
+- Styled sets page, added currency to database, fixed minor issues with set list, profile, and set pages
