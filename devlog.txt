@@ -33,3 +33,6 @@ TudorG -- 2025-12-11 10:30
 
 WilliamL -- 2025-12-12 10:40
 - Finished styling login as well as making slight changes to register
+
+KyleL -- 2025-12-12 10:40
+- Fixed some styling on register
