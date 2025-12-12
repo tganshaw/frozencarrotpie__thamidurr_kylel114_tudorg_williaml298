@@ -30,3 +30,6 @@ KyleL -- 2025-12-11 10:58
 
 TudorG -- 2025-12-11 10:30
 - Styled sets page, added currency to database, fixed minor issues with set list, profile, and set pages
+
+WilliamL -- 2025-12-12 10:40
+- Finished styling login as well as making slight changes to register
