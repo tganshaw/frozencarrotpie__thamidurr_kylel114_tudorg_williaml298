@@ -1,46 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 
-
-<html lang="n">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Register</title>
 
-
+    <style>
+      body {
+        background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F20996.jpg&f=1&nofb=1&ipt=f8a61d17b5df2e4295b6081bdc7a8ee64fd2da41dde0a756bf8e83825b6ebc76');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    </style>
   </head>
 
-  <body class="bg-[url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages8.alphacoders.com%2F662%2Fthumb-1920-662118.png&f=1&nofb=1&ipt=67c482e360c2e6ed360dbc4a62adf0128a38554e217a1e936d7a6246623d5827')] bg-cover">
+  <body class="h-screen flex items-center justify-center">
+    <div class="w-full max-w-sm p-10 rounded-2xl border border-black/100 bg-purple-300/40 backdrop-blur-md shadow-xl">
+      <h1 class="text-2xl font-semibold text-center text-white drop-shadow mb-6">
+        Log In
+      </h1>
 
-  <div class = "text-3xl text-center pt-50 font-bold font-medium text-black">
-  <h1 class = "text-5xl"> LOGIN </h1>
+      <form action="/login" method="POST" class="flex flex-col space-y-4">
+        <input type="text" name="username" placeholder="Username"
+          class="px-3 py-2 border border-white/40 text-white placeholder-white/70 rounded-lg bg-white/10 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+        >
 
-  <form action = "/login" method="POST"> <br>
+        <input type="password" name="password" placeholder="Password"
+          class="px-3 py-2 border border-white/40 text-white placeholder-white/70 rounded-lg bg-white/10 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+        >
 
-      <div class = "w-full max-w-sm-min-w-[200px]">
-        <input type="TEXT" name="username" class = "w- border-black text-center" placeholder="Username">
+        <button type="submit" class="bg-blue-600/80 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition">
+          Log in
+        </button>
+
+        <p class="text-red-300 text-sm">{{username_error}}</p>
+        <p class="text-red-300 text-sm">{{password_error}}</p>
+      </form>
+
+      <div class="text-center mt-4">
+        <a class="text-white text-sm"> New User? </a>
+        <a href="/register.html" class="text-blue-200 hover:underline text-sm"> Register</a>
       </div>
-
-
-      <div class = "w-full max-w-sm-min-w-[200px]">
-        <input type="password" name="password" class = "w- border-black text-center" placeholder="Password">
-      </div>
-
-      <div class = "text-red-500 pt-10 pb-10 font-bold">
-       &nbsp;{{username_error}}
-       &nbsp;{{password_error}}
-     </div>
-
-
-    <input type="SUBMIT" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-
-  </form>
-
-  <a href = "/register.html"> Register </a>
-
-  </div>
-
-
-
+    </div>
+  </body>
 </html>
