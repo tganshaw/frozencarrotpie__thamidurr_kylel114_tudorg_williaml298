@@ -18,9 +18,15 @@
           </a>
           <div style="position: absolute; left: 85.2%;">
             <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 object-right "/>
-
-            <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">{{currency}}</p>
-
+            {% if currency < 10 %}
+              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; &nbsp; &nbsp; {{currency}}</p>
+            {% elif currency < 100 %}
+              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; &nbsp; {{currency}}</p>
+            {% elif currency < 1000 %}
+              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; {{currency}}</p>
+            {% else %}
+              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">{{currency}}</p>
+            {% endif %}
           </div>
         </div>
         <div class="flex justify-center">
@@ -36,13 +42,14 @@
         Battle
       </button>
 
-      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-[200%] px-29 py-10">
+      <button href="/displaycollection" class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-[200%] px-30 py-10">
         <a href="/displaycollection"> Profile </a>
       </button>
-
-      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 text-[200%] px-26 py-10">
-        <a href = "/setlist"> Pokedex </a>
+      <a href = "/setlist">
+      <button href = "/setlist" class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 text-[200%] px-26 py-10">
+         Pokedex
       </button>
+      </a>
     </div>
   </section>
 </main>
@@ -65,7 +72,5 @@
   <input type = "HIDDEN" name="page" value="/">
   <input type="SUBMIT">
 </form>
-<br><br>
-
 </div>
 </html>
