@@ -148,8 +148,9 @@ def get_currency(user_id):
 def add_currency(user_id, amt):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
-    currency = user.get_currency(user_id)
-    cursor.execute(f"UPDATE userdata SET currency = {currency + amt} WHERE id = {user_id};")
+    currency = get_currency(user_id)
+    if int(currency) + int(amt) <= 9999:
+        cursor.execute(f"UPDATE userdata SET currency = {int(currency) + int(amt)} WHERE id = {user_id};")
     db.commit()
     db.close()
 
