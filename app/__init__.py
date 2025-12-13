@@ -98,7 +98,7 @@ def pull():
             if "image" in random_card:
                 random_card_id = random_card["id"]
                 cards += f"<a href='/card/{random_card_id}'>\n"
-                cards += f"<img src='{random_card['image']}/low.png'>\n"
+                cards += f"<img src='{random_card['image']}/low.jpg'>\n"
                 cards += "</a>\n"
                 user.add_card(user_id,random_card_id)
 
@@ -178,13 +178,13 @@ def displayset():
                     if card['id'] in user_cards:
                         grayscale = "grayscale-0"
                 if "image" in card:
-                # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
+                # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.png' loading='lazy' class='{grayscale}'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale}'><br>\n"
                     img_data += "</a>"
                 # else:
                 #     img_data += f"<a href='card/{card['id']}'>"
-                #     img_data += f"<img src = 'static/noimglow.png' loading='lazy' ><br>\n"
+                #     img_data += f"<img src = 'static/noimglow.jpg' loading='lazy' ><br>\n"
                 #     img_data += "</a>"
     else:
         return redirect("/")
@@ -234,16 +234,16 @@ def display_collection(type):
                 file = open(f"data/{set_id}.json", "r")
                 data = json.load(file)["cards"][int(local_id)]
                 if "image" in data:
-                # img_data += f"<a href='{card["image"]}/high.png' target = _blank>"
+                # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                     img_data += "<div class='object-center'>"
                     img_data += f"<a href='/card/{data['id']}'>"
-                    img_data += f"<img src = '{data['image']}/low.png' loading='lazy'><br>\n"
+                    img_data += f"<img src = '{data['image']}/low.jpg' loading='lazy'><br>\n"
                     img_data += "</a>"
                     img_data += "</div>"
                 else:
                     img_data += "<div class ='object-center'>"
                     img_data += f"<a href='/card/{data['id']}'>"
-                    img_data += f"<img src = 'static/noimglow.png' loading='lazy'><br>\n"
+                    img_data += f"<img src = 'static/noimglow.jpg' loading='lazy'><br>\n"
                     img_data += "</a>"
                     img_data += "</div>"
 
@@ -324,11 +324,11 @@ def get_card_info(card_id):
 
     img_data = ""
     if 'image' in data:
-        img_data += f"<a href = '{data['image']}/high.png' target = _blank>\n"
-        img_data += f"<img src = '{data['image']}/high.png'><br>\n"
+        img_data += f"<a href = '{data['image']}/high.jpg' target = _blank>\n"
+        img_data += f"<img src = '{data['image']}/high.jpg'><br>\n"
         img_data += "</a>"
     else:
-        img_data += f"<img src = '../static/noimghigh.png'><br>\n"
+        img_data += f"<img src = '../static/noimghigh.jpg'><br>\n"
         img_data += "</a>"
 
     card_info = ""
