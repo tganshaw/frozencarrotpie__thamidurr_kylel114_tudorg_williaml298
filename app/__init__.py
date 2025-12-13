@@ -60,7 +60,7 @@ def homepagehtml():
 
 #----------------------------------------------------------
 
-@app.route("/pull.html", methods=["POST","GET"])
+@app.route("/pullhtml", methods=["POST","GET"])
 def pullhtml():
     return render_template("pull.html")
 
@@ -74,25 +74,38 @@ def pull():
         else:
             num_pulls = 1
         user_id = user.get_user_id(session['username'])
-        for i in range (num_pulls):
-            if "set" not in request.args:
-                random_set = random.choice(os.listdir("data"))
-                random_set = random_set[:-5]
-            else:
-                random_set = request.args['set']
-            file = open(f"data/{random_set}.json", "r")
-            data = json.load(file)["cards"]
-            random_card = random.choice(data)
-            while random_card == data[0]:
-                random_card = random.choice(data)
-                if not "image" in random_card:
-                    random_card = data[0]
-            random_card = random_card["id"]
+        cards = ""
+        cards_without_images = 0
 
-            user.add_card(user_id,random_card)
+        for i in range (num_pulls):
+            random_card = -1
+            while isinstance(random_card, int):
+                if "set" not in request.args:
+                    random_set = random.choice(os.listdir("data"))
+                    random_set = random_set[:-5]
+                else:
+                    random_set = request.args['set']
+
+
+                file = open(f"data/{random_set}.json", "r")
+                data = json.load(file)["cards"]
+                # print(data)
+                random_card = random.choice(data)
+                if not isinstance(random_card, int):
+                    if not "image" in random_card:
+                        random_card = -1
+
+            if "image" in random_card:
+                random_card_id = random_card["id"]
+                cards += f"<a href='/card/{random_card_id}'>\n"
+                cards += f"<img src='{random_card['image']}/low.png'>\n"
+                cards += "</a>\n"
+                user.add_card(user_id,random_card_id)
+
         if "set" in request.args:
             return redirect(f"/displayset?SET={request.args['set']}")
-        return redirect("/")
+        # print(cards)
+        return render_template("pull.html", cards_pulled = cards)
     return redirect("/")
 
 #----------------------------------------------------------
@@ -211,9 +224,9 @@ def display_collection(type):
                 if i != local_id:
                     set_id += f"{i}-"
             set_id = set_id[:-1]
-            if("SWSH" in local_id):
+            if("SWSH" in local_id or "HGSS" in local_id):
                 local_id = local_id[4:]
-            if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id):
+            if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
                 local_id = local_id[2:]
             local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 
@@ -294,9 +307,9 @@ def get_card_info(card_id):
         if i != local_id:
             set_id += f"{i}-"
     set_id = set_id[:-1]
-    if("SWSH" in local_id):
+    if("SWSH" in local_id or "HGSS" in local_id):
         local_id = local_id[4:]
-    if("BW" in local_id or "XY" in local_id or "SM" in local_id):
+    if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
         local_id = local_id[2:]
     local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 

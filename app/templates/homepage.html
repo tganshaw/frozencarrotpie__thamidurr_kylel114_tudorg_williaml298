@@ -1,6 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-<html class = "scroll-smooth bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
+<html class = "scroll-smooth bg-static bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
 
 <head>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -50,18 +50,23 @@
          Pokedex
       </button>
       </a>
+      <a href = "pullhtml">
+        <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 text-[200%] px-30 py-10">
+          Pull
+        </button>
+      </a>
     </div>
   </section>
 </main>
 
-
+<!-- 
 <div class="bg-white w-[20%]">
 <form action = "/addcard">
   <input type = "TEXT" name = "TEST" placeholder="CARD ID"><br>
   <input type= "SUBMIT">
 </form>
 <br><br>
-<a href="/pull" class = "bg-green-500 rounded text-green-900">Pull</a><br><br>
+<a href="/pullhtml" class = "bg-green-500 rounded text-green-900">Pull</a><br><br>
 <a href="/removecards" class="bg-green-900 rounded text-green-100">Remove Cards</a>
 <br><br>
 <a href = "/displaycollection">Cards:</a><br>
@@ -72,5 +77,6 @@
   <input type = "HIDDEN" name="page" value="/">
   <input type="SUBMIT">
 </form>
-</div>
+</div> -->
+
 </html>
