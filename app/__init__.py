@@ -51,12 +51,12 @@ def homepagehtml():
         cards = user.get_cards(user_id)
         currency = user.get_currency(user_id)
 
-        return render_template("homepage.html", currency = currency, test = cards)
+        return render_template("homepageNew.html", currency = currency, test = cards)
     else:
         return redirect("/login.html")
 
 
-    return render_template("homepage.html",logged_in = loggedIn)
+    return render_template("homepageNew.html",logged_in = loggedIn)
 
 #----------------------------------------------------------
 
@@ -100,6 +100,7 @@ def pull():
                 cards += f"<a href='/card/{random_card_id}'>\n"
                 cards += f"<img src='{random_card['image']}/low.jpg'>\n"
                 cards += "</a>\n"
+                print(random_card["rarity"])
                 user.add_card(user_id,random_card_id)
 
         if "set" in request.args:
@@ -205,7 +206,10 @@ def display_collec():
 @app.route("/displaycollection/<string:type>")
 def display_collection(type):
     if "username" in session:
-        user_id = user.get_user_id(session["username"])
+        if not "id" in request.args:
+            user_id = user.get_user_id(session["username"])
+        else:
+            user_id = request.args["id"]
         img_data = ""
         if type == "cards":
             cards_list = user.get_cards(user_id)

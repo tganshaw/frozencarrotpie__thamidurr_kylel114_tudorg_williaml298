@@ -151,6 +151,8 @@ def add_currency(user_id, amt):
     currency = get_currency(user_id)
     if int(currency) + int(amt) <= 9999:
         cursor.execute(f"UPDATE userdata SET currency = {int(currency) + int(amt)} WHERE id = {user_id};")
+    else:
+        cursor.execute(f"UPDATE userdata SET currency = 9999 WHERE id = {user_id};")
     db.commit()
     db.close()
 
