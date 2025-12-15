@@ -51,12 +51,12 @@ def homepagehtml():
         cards = user.get_cards(user_id)
         currency = user.get_currency(user_id)
 
-        return render_template("homepageNew.html", currency = currency, test = cards)
+        return render_template("homepage.html", currency = currency, test = cards)
     else:
         return redirect("/login.html")
 
 
-    return render_template("homepageNew.html",logged_in = loggedIn)
+    return render_template("homepage.html",logged_in = loggedIn)
 
 #----------------------------------------------------------
 
