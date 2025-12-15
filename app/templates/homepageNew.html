@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <title>Home</title>
+    
+        <style>
+            html, body {
+                height: 100%;
+            }
+            body {
+                background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        </style>
+      </head>
+
+    <body>
+        <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+
+            <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/40 backdrop-blur shadow-lg">
+              <img src="../static/carrotpies.png" class="w-6 h-6">
+              <span class="text-lg font-semibold">
+                {{ currency }}
+              </span>
+            </div>
+        
+            <a href="/logout" class="px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 text-sm font-medium shadow transition">
+              Log Out
+            </a>
+        
+          </div>
+
+        <main class="flex min-h-screen flex-col items-center gap-12 px-4">
+            <a href="/">
+                <img src="../static/title.png" alt="Logo" class="w-[20rem] max-w-full drop-shadow-xl">
+            </a>
+
+            <div class="flex flex-col gap-6 justify-center w-full max-w-md text-white">
+
+                <a href="/">
+                    <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                            bg-gradient-to-r from-red-400 via-red-500 to-red-600
+                            hover:scale-[1.03] transition">
+                    Battle
+                    </button>
+                </a>
+          
+                <a href="/displaycollection">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600
+                           hover:scale-[1.03] transition">
+                    Profile
+                  </button>
+                </a>
+          
+                <a href="/setlist">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700
+                           hover:scale-[1.03] transition">
+                    Pokédex
+                  </button>
+                </a>
+          
+                <a href="/pullhtml">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-green-400 via-green-500 to-green-600
+                           hover:scale-[1.03] transition">
+                    Pull
+                  </button>
+                </a>
+          
+              </div>
+        </main>
+    </body>
+</html>
