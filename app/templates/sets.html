@@ -2,25 +2,41 @@
 
 <html class = "scroll-smooth bg-cover bg-fixed bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
 
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Home</title>
 
-<nav class="flex-1 flex items-left justify-left">
-  <section>
-    <header class="flex mt-[10%] pl-4 items-center w-full w-full">
-      <a href="/logout">
-        <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+
+        <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/40 backdrop-blur shadow-lg">
+          <img src="../static/carrotpies.png" class="w-6 h-6">
+          <span class="text-lg font-semibold">
+            {{ currency }}
+          </span>
+        </div>
+
+        <a href="/logout" class="px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 text-sm font-medium shadow transition">
           Log Out
-        </button>
-      </a>
-      <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 "/>
-    </header>
-  </section>
-</nav>
+        </a>
+
+      </div>
+</body>
 
 <body class="flex items-left justify-center">
     <div class="flex gap-4 w-full grid grid-cols-1 place-items-center h-1/900 justify-center">
