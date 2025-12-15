@@ -1,82 +1,86 @@
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<!DOCTYPE html>
 
-<html class = "scroll-smooth bg-static bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <title>Home</title>
 
-<head>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+        <style>
+            html, body {
+                height: 100%;
+            }
+            body {
+                background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+        </style>
+      </head>
 
-<main class="flex-1 flex items-center justify-center">
-  <section class="flex flex-col items-center justify-center gap-8 px-4">
-    <header class="w-full">
-      <div class="grid grid-cols-3 items-center w-full">
-        <div class="flex items-center mt-[-15%] pl-4">
-          <a href="/logout">
-            <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
+    <body>
+        <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+
+            <div class="flex items-center gap-2 px-4 py-0.5 rounded-xl bg-white outline-solid outline-red-400">
+              <img src="../static/carrotpies.png" class="w-6 h-6">
+              <span class="text-lg font-semibold">
+                {{ currency }}
+              </span>
+            </div>
+
+            <a href="/logout" class="px-4 py-2 rounded-xl text-white bg-red-600 hover:bg-red-700 text-sm font-medium shadow transition">
               Log Out
-            </button>
-          </a>
-          <div style="position: absolute; left: 85.2%;">
-            <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 object-right "/>
-            {% if currency < 10 %}
-              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; &nbsp; &nbsp; {{currency}}</p>
-            {% elif currency < 100 %}
-              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; &nbsp; {{currency}}</p>
-            {% elif currency < 1000 %}
-              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">&nbsp; {{currency}}</p>
-            {% else %}
-              <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">{{currency}}</p>
-            {% endif %}
+            </a>
+
           </div>
-        </div>
-        <div class="flex justify-center">
-          <a href="/">
-            <img src="../static/title.png" alt="Title graphic" class="w-[40rem] max-w-full h-auto object-contain"/>
-          </a>
-        </div>
-      </div>
-    </header>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-3xl grid grid-cols-1 place-items-center h-1/900">
-      <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 text-[200%] px-30 py-10">
-        Battle
-      </button>
+        <main class="flex min-h-screen flex-col items-center gap-12 px-4">
+            <a href="/">
+                <img src="../static/title.png" alt="Logo" class="w-[30rem] max-w-full drop-shadow-xl">
+            </a>
 
-      <button href="/displaycollection" class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 text-[200%] px-30 py-10">
-        <a href="/displaycollection"> Profile </a>
-      </button>
-      <a href = "/setlist">
-      <button href = "/setlist" class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 text-[200%] px-26 py-10">
-         Pokedex
-      </button>
-      </a>
-      <a href = "pullhtml">
-        <button class="w-full sm:w-auto px-8 py-4 text-lg rounded-2xl font-medium shadow-lg bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 text-[200%] px-30 py-10">
-          Pull
-        </button>
-      </a>
-    </div>
-  </section>
-</main>
+            <div class="flex flex-col gap-6 justify-center w-full max-w-md text-white">
 
-<!-- 
-<div class="bg-white w-[20%]">
-<form action = "/addcard">
-  <input type = "TEXT" name = "TEST" placeholder="CARD ID"><br>
-  <input type= "SUBMIT">
-</form>
-<br><br>
-<a href="/pullhtml" class = "bg-green-500 rounded text-green-900">Pull</a><br><br>
-<a href="/removecards" class="bg-green-900 rounded text-green-100">Remove Cards</a>
-<br><br>
-<a href = "/displaycollection">Cards:</a><br>
-{{test | safe}}
-<br><br>
-<form action = "/addcurrency">
-  <input type = "INT" name="count">
-  <input type = "HIDDEN" name="page" value="/">
-  <input type="SUBMIT">
-</form>
-</div> -->
+                <a href="/">
+                    <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                            bg-gradient-to-r from-red-400 via-red-500 to-red-600
+                            hover:scale-[1.03] hover:bg-gradient-to-br transition">
+                    Battle
+                    </button>
+                </a>
 
+                <a href="/displaycollection">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600
+                           hover:scale-[1.03] hover:bg-gradient-to-br transition">
+                    Profile
+                  </button>
+                </a>
+
+                <a href="/setlist">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700
+                           hover:scale-[1.03] hover:bg-gradient-to-br transition">
+                    Pokédex
+                  </button>
+                </a>
+
+                <a href="/pullhtml">
+                  <button
+                    class="w-full py-12 text-2xl rounded-2xl font-semibold shadow-xl
+                           bg-gradient-to-r from-green-400 via-green-500 to-green-600
+                           hover:scale-[1.03] hover:bg-gradient-to-br transition">
+                    Pull
+                  </button>
+                </a>
+
+              </div>
+        </main>
+    </body>
 </html>
