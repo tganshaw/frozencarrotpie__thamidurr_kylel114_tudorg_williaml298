@@ -66,12 +66,14 @@ def trivia():
     stat_types = ["hp", "attack", "defense", "special attack", "special defense", "speed"]
     types = ["fire", "water", "grass", "electric", "ghost", "poison", "ice", "dragon", "bug", "normal", "fighting", "flying", "ground", "rock", "psychic", "dark", "steel", "fairy"]
     user_id = user.get_user_id(session["username"])
+    currency = user.get_currency(user_id)
     # print("type" in request.form)
     base_link = "https://pokeapi.co/api/v2/pokemon/"
     dex_num = random.randint(1,1025)
     json_data = urllib.request.urlopen(f"{base_link}{dex_num}")
     json_string = json_data.read()
     data = json.loads(json_string)
+    gif_link = ""
     print(dex_num)
 
     if "type" in request.form:
@@ -82,6 +84,7 @@ def trivia():
         prev_data = json.loads(prev_json_string)
 
 
+        base_giphy_link = "https://api.giphy.com/v1/gifs/search?api_key=Didpixn5N3nNMVPR6rB0G7p3sLSpu2UN&limit=1&q="
         match request.form["type"]:
             case "gen":
                 generation_cutoffs = [151, 251, 386, 493, 649, 721, 809, 905, 1025]
@@ -91,6 +94,10 @@ def trivia():
                         break;
                 if gen == int(request.form["question"]):
                     user.add_currency(user_id,10);
+                    base_giphy_link += "happy"
+                    giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
+
+                    gif_link = f"<img src='{giphy_data['data'][0]['url']}'>"
             case "height":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["height"] / 10):
@@ -125,7 +132,7 @@ def trivia():
     topic = random.choice(possible_topics)
 
     stat_type = ""
-    # topic = "weight"
+    topic = "gen"
     question_type = ""
     match topic:
         case "gen":
@@ -227,14 +234,16 @@ def trivia():
                 possible_answers.append(round(real_weight * rand_modifier, 2))
 
     random.shuffle(possible_answers)
-    return render_template("testing.html", testimg = img_str, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
+    return render_template("testing.html", testimg = img_str, gif = gif_link, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
 
 
 #----------------------------------------------------------
 
 @app.route("/pullhtml", methods=["POST","GET"])
 def pullhtml():
-    return render_template("pull.html")
+    user_id = user.get_user_id(session["username"])
+    currency = user.get_currency(user_id)
+    return render_template("pull.html", currency = currency)
 
 #----------------------------------------------------------
 
@@ -246,6 +255,7 @@ def pull():
         else:
             num_pulls = 1
         user_id = user.get_user_id(session['username'])
+        currency = user.get_currency(user_id)
         cards = ""
         cards_without_images = 0
 
@@ -278,7 +288,7 @@ def pull():
         if "set" in request.args:
             return redirect(f"/displayset?SET={request.args['set']}")
         # print(cards)
-        return render_template("pull.html", cards_pulled = cards)
+        return render_template("pull.html", cards_pulled = cards, currency = currency)
     return redirect("/")
 
 #----------------------------------------------------------
@@ -331,7 +341,9 @@ def displayset():
         else:
             return "Set doesn't exist. Sorry"
 
-        user_cards = user.get_cards(user.get_user_id(session["username"]))
+        user_id = user.get_user_id(session['username'])
+        currency = user.get_currency(user_id)
+        user_cards = user.get_cards(user_id)
         set_data = data
         data = data["cards"]
 
@@ -362,16 +374,18 @@ def displayset():
     else:
         return redirect("/")
     if img_data == "":
-        return render_template("collection.html", title = title_data, deck = "Set has no images", cards = -1)
-    return render_template("collection.html", deck = img_data, title = title_data, cards = -1)
+        return render_template("collection.html", title = title_data, deck = "Set has no images", cards = -1, currency = currency)
+    return render_template("collection.html", deck = img_data, title = title_data, cards = -1, currency = currency)
 
 #----------------------------------------------------------
 
 @app.route("/displaycollection")
 def display_collec():
+    user_id = user.get_user_id(session['username'])
+    currency = user.get_currency(user_id)
     card_info = display_collection("cards")
     deck_info = display_collection("deck")
-    return render_template("collection.html", deck = deck_info, cards = card_info)
+    return render_template("collection.html", deck = deck_info, cards = card_info, currency = currency)
 
 #----------------------------------------------------------
 
@@ -382,6 +396,7 @@ def display_collection(type):
             user_id = user.get_user_id(session["username"])
         else:
             user_id = request.args["id"]
+
         img_data = ""
         if type == "cards":
             cards_list = user.get_cards(user_id)

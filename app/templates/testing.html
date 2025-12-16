@@ -43,6 +43,7 @@ What is this Pokemon's {{question_type}}?
 {{ testimg | safe }}
 </div>
 
+{{ gif | safe}}
 <form action = "/trivia" method="POST">
   <input type = "radio" id="q1" name="question" value='{{q1}}'>
   <label for "q1"> {{q1}}</label>
