@@ -444,6 +444,8 @@ def display_collection(type):
 
 @app.route("/setlist")
 def setlist():
+    user_id = user.get_user_id(session["username"])
+    currency = user.get_currency(user_id)
     set_files = os.listdir("data")
     set_files.sort()
     set_info = ""
@@ -469,7 +471,7 @@ def setlist():
             set_info += ""
             #set_info += f"<a href = '/displayset?SET={set['id']}'>{set['name']}</a><br>"
         set_info += "</div>\n\n"
-    return render_template("sets.html", sets = set_info)
+    return render_template("sets.html", sets = set_info, currency = currency)
 
 #----------------------------------------------------------
 
