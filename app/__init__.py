@@ -66,7 +66,7 @@ def trivia():
     stat_types = ["hp", "attack", "defense", "special attack", "special defense", "speed"]
     types = ["fire", "water", "grass", "electric", "ghost", "poison", "ice", "dragon", "bug", "normal", "fighting", "flying", "ground", "rock", "psychic", "dark", "steel", "fairy"]
     user_id = user.get_user_id(session["username"])
-    currency = user.get_currency(user_id)
+
     # print("type" in request.form)
     base_link = "https://pokeapi.co/api/v2/pokemon/"
     dex_num = random.randint(1,1025)
@@ -95,18 +95,24 @@ def trivia():
                 if gen == int(request.form["question"]):
                     user.add_currency(user_id,10);
                     base_giphy_link += "happy"
-                    giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
+                else:
+                    base_giphy_link += "sad"
 
-                    gif_link = f"<img src='{giphy_data['data'][0]['url']}'>"
             case "height":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["height"] / 10):
                     user.add_currency(user_id, 50)
+                    base_giphy_link += "happy"
+                else:
+                    base_giphy_link += "sad"
             case "stats":
                 correct_stat = prev_data["stats"][int(request.form["stattype"])]["base_stat"]
                 if int(request.form["question"]) == correct_stat:
                     print("hooray!")
                     user.add_currency(user_id,100)
+                    base_giphy_link += "happy"
+                else:
+                    base_giphy_link += "sad"
             case "type":
                 correct_types = []
                 for type in prev_data["types"]:
@@ -119,10 +125,23 @@ def trivia():
                 if request.form["question"] == type_string or request.form["question"] == reversed_type_string:
                     print("yippee!")
                     user.add_currency(user_id,30)
+                    base_giphy_link += "happy"
+                else:
+                    base_giphy_link += "sad"
             case "weight":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["weight"] / 10):
                     user.add_currency(user_id, 50)
+                    base_giphy_link += "happy"
+                else:
+                    base_giphy_link += "sad"
+
+        if "type" in request.form:
+            giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
+
+            gif_link = f"<img src='{giphy_data['data'][0]['images']['original']['url']}'>"
+    currency = user.get_currency(user_id)
+
     img_str = ""
     if data['sprites']['back_default'] != None:
         img_str += f"<img src ='{data['sprites']['back_default']}'><br>\n"
@@ -132,7 +151,7 @@ def trivia():
     topic = random.choice(possible_topics)
 
     stat_type = ""
-    topic = "gen"
+    # topic = "gen"
     question_type = ""
     match topic:
         case "gen":
@@ -234,7 +253,7 @@ def trivia():
                 possible_answers.append(round(real_weight * rand_modifier, 2))
 
     random.shuffle(possible_answers)
-    return render_template("testing.html", testimg = img_str, gif = gif_link, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
+    return render_template("testing.html", currency = currency, testimg = img_str, gif = gif_link, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
 
 
 #----------------------------------------------------------
@@ -460,10 +479,10 @@ def setlist():
                 if "image" in card:
                     image_count+= 1
         if "logo" in set and image_count > 0:
-            set_info += "<div class='w-[50px] h-[50px] m-5'>\n"
+            set_info += "<div class='w-[100px] h-[100px] m-5'>\n"
             set_info+= f"<a href = '/displayset?SET={set['id']}'>"
-            set_info += "<button class='w-[50px] h-[50px] rounded-full bg-blue-500 hover:bg-red-500 text-white' >\n"
-            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down object-center' loading='lazy'>\n"
+            set_info += "<button class='w-[75px] h-[75px] rounded-full bg-blue-500 hover:bg-red-500 text-white pl-[7.5px] border-5' >\n"
+            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down justify-center w-[50px] h-[50px]' loading='lazy'>\n"
             set_info += "</button>\n"
             set_info += "</a><br>\n"
             set_info += "</div>\n"
