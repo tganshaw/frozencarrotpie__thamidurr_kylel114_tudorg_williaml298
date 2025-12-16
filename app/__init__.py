@@ -62,6 +62,9 @@ def homepagehtml():
 
 @app.route("/trivia", methods = ["POST", "GET"])
 def trivia():
+
+    stat_types = ["hp", "attack", "defense", "special attack", "special defense", "speed"]
+    types = ["fire", "water", "grass", "electric", "ghost", "poison", "ice", "dragon", "bug", "normal", "fighting", "flying", "ground", "rock", "psychic", "dark", "steel", "fairy"]
     user_id = user.get_user_id(session["username"])
     # print("type" in request.form)
     base_link = "https://pokeapi.co/api/v2/pokemon/"
@@ -69,7 +72,7 @@ def trivia():
     json_data = urllib.request.urlopen(f"{base_link}{dex_num}")
     json_string = json_data.read()
     data = json.loads(json_string)
-
+    print(dex_num)
 
     if "type" in request.form:
         prev_dex_num = int(request.form["dexnum"])
@@ -91,8 +94,28 @@ def trivia():
             case "height":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["height"] / 10):
-                    user.add_currency(user_id, 50);
-
+                    user.add_currency(user_id, 50)
+            case "stats":
+                correct_stat = prev_data["stats"][int(request.form["stattype"])]["base_stat"]
+                if int(request.form["question"]) == correct_stat:
+                    print("hooray!")
+                    user.add_currency(user_id,100)
+            case "type":
+                correct_types = []
+                for type in prev_data["types"]:
+                    correct_types.append(type["type"]["name"])
+                if len(correct_types) == 1:
+                    correct_types.append(correct_types[0])
+                type_string = "/".join(correct_types)
+                reversed_correct_types = correct_types[::-1]
+                reversed_type_string = "/".join(reversed_correct_types)
+                if request.form["question"] == type_string or request.form["question"] == reversed_type_string:
+                    print("yippee!")
+                    user.add_currency(user_id,30)
+            case "weight":
+                # print(prev_data["height"] / 10)
+                if request.form["question"] == str(prev_data["weight"] / 10):
+                    user.add_currency(user_id, 50)
     img_str = ""
     if data['sprites']['back_default'] != None:
         img_str += f"<img src ='{data['sprites']['back_default']}'><br>\n"
@@ -101,9 +124,12 @@ def trivia():
     possible_topics = ["gen","height","stats","type","weight"]
     topic = random.choice(possible_topics)
 
-    topic = "height"
+    stat_type = ""
+    # topic = "weight"
+    question_type = ""
     match topic:
         case "gen":
+            question_type = "generation"
             generation_cutoffs = [151, 251, 386, 493, 649, 721, 809, 905, 1025]
             for i in range(len(generation_cutoffs)):
                 if dex_num <= generation_cutoffs[i]:
@@ -120,6 +146,7 @@ def trivia():
                     possible_answers = [gen, gen + 1, gen - 1, gen + 2]
 
         case "height":
+            question_type = "height (in meters)"
             real_height = int(data['height']) / 10.0
             format(real_height, '0.2f')
             possible_answers = []
@@ -131,16 +158,76 @@ def trivia():
                 possible_answers.append(round(real_height * rand_modifier, 2))
 
         case "stats":
-            print("bst")
+            specific_stat = random.randint(0,5)
+            stat_type = specific_stat
+            correct_stat = int(data['stats'][specific_stat]["base_stat"])
+            question_type = f"{stat_types[stat_type]} stat"
+            print(stat_type)
+            print(correct_stat)
+            possible_answers = []
+            possible_answers.append(correct_stat)
+            for i in range (0,3):
+                rand_modifier = random.randint(65,85) / 100
+                if random.randint(0,101294102129313) % 2 == 0:
+                    rand_modifier = random.randint(115, 135) / 100
+                temp_stat = round(correct_stat * rand_modifier)
+                if temp_stat == correct_stat:
+                    temp_stat += random.randint(0,340343) % 4
+                possible_answers.append(temp_stat)
+
 
         case "type":
-            print("18 of them")
+            question_type = "type"
+            correct_types = []
+            for type in data["types"]:
+                correct_types.append(type["type"]["name"])
+            if len(correct_types) == 1:
+                correct_types.append(correct_types[0])
+            type_string = "/".join(correct_types)
+            possible_answers = []
+            possible_answers.append(type_string)
+            for i in range(0,3):
+                possible_typing = []
+                type1 = random.choice(types)
+                type2 = random.choice(types)
+                type_check = random.randint(0,10230123123) % 2
+                if type1 not in correct_types:
+                    if random.randint(0,120124124123) % 5 > 2:
+                        type1 = correct_types[type_check]
+                if type2 not in correct_types:
+                    if random.randint(0,120124124123) % 5 > 2:
+                        type2 = correct_types[type_check]
+                possible_typing.append(type1)
+                possible_typing.append(type2)
+                possible_typing_string = "/".join(possible_typing)
+
+                other_possible_typing = possible_typing[::-1]
+
+                other_possible_typing_string = "/".join(other_possible_typing)
+                if possible_typing_string == type_string or other_possible_typing_string == type_string:
+                    while(type1 == correct_types[0] or type1 == correct_types[1]):
+                        type1 = random.choice(types)
+                    possible_typing[0] = type1
+                    possible_typing[1] = type2
+                    # print(possible_typing)
+                    possible_typing_string = "/".join(possible_typing)
+
+                possible_answers.append(possible_typing_string)
 
         case "weight":
-            print("snorlax")
+            question_type = "weight (in kg)"
+            real_weight = int(data['weight']) / 10.0
+            format(real_weight, '0.2f')
+            possible_answers = []
+            possible_answers.append(real_weight)
+            for i in range (0,3):
+                rand_modifier = random.randint(65,85) / 100
+                if random.randint(0,101294102129313) % 2 == 0:
+                    rand_modifier = random.randint(115, 135) / 100
+                possible_answers.append(round(real_weight * rand_modifier, 2))
 
     random.shuffle(possible_answers)
-    return render_template("testing.html", testimg = img_str, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
+    return render_template("testing.html", testimg = img_str, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
 
 
 #----------------------------------------------------------

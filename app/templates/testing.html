@@ -1,4 +1,48 @@
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+<html class = "scroll-smooth bg-cover bg-[url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2Fdb%2F48%2F42%2Fdb4842cf0fe9103c5aa488d0ab60fab2.jpg&f=1&nofb=1&ipt=4b11d9ccfcd8052b31f4d69ba69af7b2daa7ac40eaf3c6a6c0b80991806dab00)]">
+
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<main class="flex-1 flex items-center justify-center">
+  <section class="flex flex-col items-center justify-center gap-8 px-4">
+    <header class="w-full">
+      <div class="grid grid-cols-3 items-center w-full">
+        <div class="flex items-center mt-[-15%] pl-4">
+          <a href="/logout">
+            <button type="button" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-4 py-2 focus:outline-none shadow">
+              Log Out
+            </button>
+          </a>
+          <div style="position: absolute; left: 85.2%;">
+            <img src="../static/carrotpies.png" alt="Title graphic" class="scale-40 object-right "/>
+
+            <p style="position: absolute; top: 39%; left: 45.2%; font-size: 22px;">{{currency}}</p>
+
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <a href="/">
+            <img src="../static/title.png" alt="Title graphic" class="w-[40rem] max-w-full h-auto object-contain"/>
+          </a>
+        </div>
+      </div>
+    </header>
+
+
+  </section>
+</main>
+
+
+<div class = "flex flex-wrap w-[60%] ml-[20%] mt-[5%] justify-center bg-white">
+What is this Pokemon's {{question_type}}?
+<br>
+<div class = 'flex w-[10%]'>
 {{ testimg | safe }}
+</div>
+
 <form action = "/trivia" method="POST">
   <input type = "radio" id="q1" name="question" value='{{q1}}'>
   <label for "q1"> {{q1}}</label>
@@ -11,5 +55,9 @@
 
   <input type = "hidden" name="type" value={{type}}>
   <input type = "hidden" name="dexnum" value={{dexnum}}>
+  <input type = "hidden" name="stattype" value={{stattype}}>
   <input type="submit">
 </form>
+
+</div>
+</html>
