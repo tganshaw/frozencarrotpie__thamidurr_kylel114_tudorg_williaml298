@@ -51,12 +51,97 @@ def homepagehtml():
         cards = user.get_cards(user_id)
         currency = user.get_currency(user_id)
 
-        return render_template("homepageNew.html", currency = currency, test = cards)
+        return render_template("homepage.html", currency = currency, test = cards)
     else:
         return redirect("/login.html")
 
 
-    return render_template("homepageNew.html",logged_in = loggedIn)
+    return render_template("homepage.html",logged_in = loggedIn)
+
+#----------------------------------------------------------
+
+@app.route("/trivia", methods = ["POST", "GET"])
+def trivia():
+    user_id = user.get_user_id(session["username"])
+    # print("type" in request.form)
+    base_link = "https://pokeapi.co/api/v2/pokemon/"
+    dex_num = random.randint(1,1025)
+    json_data = urllib.request.urlopen(f"{base_link}{dex_num}")
+    json_string = json_data.read()
+    data = json.loads(json_string)
+
+
+    if "type" in request.form:
+        prev_dex_num = int(request.form["dexnum"])
+
+        prev_json_data = urllib.request.urlopen(f"{base_link}{prev_dex_num}")
+        prev_json_string = prev_json_data.read()
+        prev_data = json.loads(prev_json_string)
+
+
+        match request.form["type"]:
+            case "gen":
+                generation_cutoffs = [151, 251, 386, 493, 649, 721, 809, 905, 1025]
+                for i in range(len(generation_cutoffs)):
+                    if prev_dex_num <= generation_cutoffs[i]:
+                        gen = i+1
+                        break;
+                if gen == int(request.form["question"]):
+                    user.add_currency(user_id,10);
+            case "height":
+                # print(prev_data["height"] / 10)
+                if request.form["question"] == str(prev_data["height"] / 10):
+                    user.add_currency(user_id, 50);
+
+    img_str = ""
+    if data['sprites']['back_default'] != None:
+        img_str += f"<img src ='{data['sprites']['back_default']}'><br>\n"
+    img_str += f"<img src ='{data['sprites']['front_default']}'><br>\n"
+
+    possible_topics = ["gen","height","stats","type","weight"]
+    topic = random.choice(possible_topics)
+
+    topic = "height"
+    match topic:
+        case "gen":
+            generation_cutoffs = [151, 251, 386, 493, 649, 721, 809, 905, 1025]
+            for i in range(len(generation_cutoffs)):
+                if dex_num <= generation_cutoffs[i]:
+                    gen = i+1
+                    break;
+            match gen:
+                case 1:
+                    possible_answers = [gen, gen + 1, gen + 2, gen + 3]
+                case 8:
+                    possible_answers = [gen, gen + 1, gen - 1, gen - 2]
+                case 9:
+                    possible_answers = [gen, gen - 1, gen - 2, gen - 3]
+                case _:
+                    possible_answers = [gen, gen + 1, gen - 1, gen + 2]
+
+        case "height":
+            real_height = int(data['height']) / 10.0
+            format(real_height, '0.2f')
+            possible_answers = []
+            possible_answers.append(real_height)
+            for i in range (0,3):
+                rand_modifier = random.randint(65,85) / 100
+                if random.randint(0,101294102129313) % 2 == 0:
+                    rand_modifier = random.randint(115, 135) / 100
+                possible_answers.append(round(real_height * rand_modifier, 2))
+
+        case "stats":
+            print("bst")
+
+        case "type":
+            print("18 of them")
+
+        case "weight":
+            print("snorlax")
+
+    random.shuffle(possible_answers)
+    return render_template("testing.html", testimg = img_str, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
+
 
 #----------------------------------------------------------
 

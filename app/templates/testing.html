@@ -1,0 +1,15 @@
+{{ testimg | safe }}
+<form action = "/trivia" method="POST">
+  <input type = "radio" id="q1" name="question" value='{{q1}}'>
+  <label for "q1"> {{q1}}</label>
+  <input type = "radio" id="q2" name="question" value='{{q2}}'>
+  <label for "q2"> {{q2}}</label>
+  <input type = "radio" id="q3" name="question" value='{{q3}}'>
+  <label for "q3"> {{q3}}</label>
+  <input type = "radio" id="q4" name="question" value='{{q4}}'>
+  <label for "q4"> {{q4}}</label>
+
+  <input type = "hidden" name="type" value={{type}}>
+  <input type = "hidden" name="dexnum" value={{dexnum}}>
+  <input type="submit">
+</form>
