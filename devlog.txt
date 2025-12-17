@@ -42,3 +42,8 @@ TudorG -- 2025-12-15 10:30
 
 WilliamL -- 2025-12-16 11:00
 - Styling in profile and beginning work on navbar
+
+TudorG -- 2025-12-16 10:30
+- Fixed issues with trivia, sets, collection
+- Made all pages return currency
+- Fixed styling on card, trivia, and collection

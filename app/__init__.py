@@ -84,7 +84,8 @@ def trivia():
         prev_data = json.loads(prev_json_string)
 
 
-        base_giphy_link = "https://api.giphy.com/v1/gifs/search?api_key=Didpixn5N3nNMVPR6rB0G7p3sLSpu2UN&limit=1&q="
+
+        emotion = ""
         match request.form["type"]:
             case "gen":
                 generation_cutoffs = [151, 251, 386, 493, 649, 721, 809, 905, 1025]
@@ -94,25 +95,25 @@ def trivia():
                         break;
                 if gen == int(request.form["question"]):
                     user.add_currency(user_id,10);
-                    base_giphy_link += "happy"
+                    emotion = "happy"
                 else:
-                    base_giphy_link += "sad"
+                    emotion = "sad"
 
             case "height":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["height"] / 10):
                     user.add_currency(user_id, 50)
-                    base_giphy_link += "happy"
+                    emotion = "happy"
                 else:
-                    base_giphy_link += "sad"
+                    emotion = "sad"
             case "stats":
                 correct_stat = prev_data["stats"][int(request.form["stattype"])]["base_stat"]
                 if int(request.form["question"]) == correct_stat:
                     print("hooray!")
                     user.add_currency(user_id,100)
-                    base_giphy_link += "happy"
+                    emotion = "happy"
                 else:
-                    base_giphy_link += "sad"
+                    emotion = "sad"
             case "type":
                 correct_types = []
                 for type in prev_data["types"]:
@@ -125,21 +126,38 @@ def trivia():
                 if request.form["question"] == type_string or request.form["question"] == reversed_type_string:
                     print("yippee!")
                     user.add_currency(user_id,30)
-                    base_giphy_link += "happy"
+                    emotion = "happy"
                 else:
-                    base_giphy_link += "sad"
+                    emotion = "sad"
             case "weight":
                 # print(prev_data["height"] / 10)
                 if request.form["question"] == str(prev_data["weight"] / 10):
                     user.add_currency(user_id, 50)
-                    base_giphy_link += "happy"
+                    emotion = "happy"
                 else:
-                    base_giphy_link += "sad"
+                    emotion = "sad"
 
         if "type" in request.form:
-            giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
+            print("hi")
+            file = open("keys/key_giphy.txt")
+            api_key = file.read()
+            api_key = api_key.strip()
+            rand_offset = 1 #random.randint(0,4999)
 
+            base_giphy_link = f"https://api.giphy.com/v1/gifs/search?api_key={api_key}&limit=1&q={emotion}"
+
+            giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
             gif_link = f"<img src='{giphy_data['data'][0]['images']['original']['url']}'>"
+            # check = 0
+            # while(check == 0):
+            #
+            #     if len(giphy_data['data']) > 0:
+            #
+            #         check = 1
+            #     else:
+            #         check = 0
+            #         rand_offset = random.randint(0,4999)
+
     currency = user.get_currency(user_id)
 
     img_str = ""
@@ -402,8 +420,12 @@ def displayset():
 def display_collec():
     user_id = user.get_user_id(session['username'])
     currency = user.get_currency(user_id)
-    card_info = display_collection("cards")
+    if not "id" in request.args:
+        card_info = display_collection("cards")
+    else:
+        card_info = -1
     deck_info = display_collection("deck")
+
     return render_template("collection.html", deck = deck_info, cards = card_info, currency = currency)
 
 #----------------------------------------------------------

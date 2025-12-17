@@ -39,23 +39,23 @@
 </main>
 
 
-<div class = "flex flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white">
+<div class = "flex flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white rounded-[15%]">
 What is this Pokemon's {{question_type}}?
 <br>
-<div class = 'flex flex-wrap w-[60%] justify-center '>
+<div class = 'flex flex-wrap w-full justify-center '>
 {{ testimg | safe }}
 
 
 
 <form action = "/trivia" method="POST">
   <input type = "radio" id="q1" name="question" value='{{q1}}'>
-  <label for "q1"> {{q1}}</label>
+  <label for "q1"> {{q1}}</label>&nbsp;
   <input type = "radio" id="q2" name="question" value='{{q2}}'>
-  <label for "q2"> {{q2}}</label>
+  <label for "q2"> {{q2}}</label>&nbsp;
   <input type = "radio" id="q3" name="question" value='{{q3}}'>
-  <label for "q3"> {{q3}}</label>
+  <label for "q3"> {{q3}}</label>&nbsp;
   <input type = "radio" id="q4" name="question" value='{{q4}}'>
-  <label for "q4"> {{q4}}</label>
+  <label for "q4"> {{q4}}</label>&nbsp;
 
   <input type = "hidden" name="type" value={{type}}>
   <input type = "hidden" name="dexnum" value={{dexnum}}>
