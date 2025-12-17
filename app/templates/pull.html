@@ -61,6 +61,12 @@
 
           </div>
 
+          {% if pull_error != -1 %}
+            <div class ='bg-cyan-500 rounded-[15%] h-[10%]'>
+              {{pull_error}}
+            </div>
+          {% endif %}
+
           <div class='flex flex-wrap items-center justify-center'>
             {{cards_pulled | safe}}
           </div>

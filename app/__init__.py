@@ -108,6 +108,8 @@ def trivia():
                     emotion = "sad"
             case "stats":
                 correct_stat = prev_data["stats"][int(request.form["stattype"])]["base_stat"]
+                # for i in request.form:
+                #     print(i)
                 if int(request.form["question"]) == correct_stat:
                     print("hooray!")
                     user.add_currency(user_id,100)
@@ -280,7 +282,7 @@ def trivia():
 def pullhtml():
     user_id = user.get_user_id(session["username"])
     currency = user.get_currency(user_id)
-    return render_template("pull.html", currency = currency)
+    return render_template("pull.html", currency = currency, pull_error = -1)
 
 #----------------------------------------------------------
 
@@ -292,6 +294,14 @@ def pull():
         else:
             num_pulls = 1
         user_id = user.get_user_id(session['username'])
+        currency = user.get_currency(user_id)
+
+        pull_cost = 150
+        pull_cost -= (num_pulls % 10) * 5
+        if(currency >= num_pulls * pull_cost):
+            user.add_currency(user_id,-(num_pulls * pull_cost))
+        else:
+            return render_template("pull.html", currency = currency, pull_error = "You don't have enough currency")
         currency = user.get_currency(user_id)
         cards = ""
         cards_without_images = 0
@@ -325,7 +335,7 @@ def pull():
         if "set" in request.args:
             return redirect(f"/displayset?SET={request.args['set']}")
         # print(cards)
-        return render_template("pull.html", cards_pulled = cards, currency = currency)
+        return render_template("pull.html", cards_pulled = cards, pull_error = -1, currency = currency)
     return redirect("/")
 
 #----------------------------------------------------------
@@ -448,36 +458,37 @@ def display_collection(type):
             return -1
             # return render_template("collection.html", imgs = img_data)
         for each_card in cards_list:
-            info_arr = each_card.split("-")
-            set_id = ""
-            local_id = info_arr[-1]
+            if each_card != "":
+                info_arr = each_card.split("-")
+                set_id = ""
+                local_id = info_arr[-1]
 
-            for i in info_arr:
-                if i != local_id:
-                    set_id += f"{i}-"
-            set_id = set_id[:-1]
-            if("SWSH" in local_id or "HGSS" in local_id):
-                local_id = local_id[4:]
-            if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
-                local_id = local_id[2:]
-            local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
+                for i in info_arr:
+                    if i != local_id:
+                        set_id += f"{i}-"
+                set_id = set_id[:-1]
+                if("SWSH" in local_id or "HGSS" in local_id):
+                    local_id = local_id[4:]
+                if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
+                    local_id = local_id[2:]
+                local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 
-            if os.path.exists(f"data/{set_id}.json"):
-                file = open(f"data/{set_id}.json", "r")
-                data = json.load(file)["cards"][int(local_id)]
-                if "image" in data:
-                # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
-                    img_data += "<div class='object-center'>"
-                    img_data += f"<a href='/card/{data['id']}'>"
-                    img_data += f"<img src = '{data['image']}/low.jpg' loading='lazy'><br>\n"
-                    img_data += "</a>"
-                    img_data += "</div>"
-                else:
-                    img_data += "<div class ='object-center'>"
-                    img_data += f"<a href='/card/{data['id']}'>"
-                    img_data += f"<img src = 'static/noimglow.jpg' loading='lazy'><br>\n"
-                    img_data += "</a>"
-                    img_data += "</div>"
+                if os.path.exists(f"data/{set_id}.json"):
+                    file = open(f"data/{set_id}.json", "r")
+                    data = json.load(file)["cards"][int(local_id)]
+                    if "image" in data:
+                    # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
+                        img_data += "<div class='object-center'>"
+                        img_data += f"<a href='/card/{data['id']}'>"
+                        img_data += f"<img src = '{data['image']}/low.jpg' loading='lazy'><br>\n"
+                        img_data += "</a>"
+                        img_data += "</div>"
+                    else:
+                        img_data += "<div class ='object-center'>"
+                        img_data += f"<a href='/card/{data['id']}'>"
+                        img_data += f"<img src = 'static/noimglow.jpg' loading='lazy'><br>\n"
+                        img_data += "</a>"
+                        img_data += "</div>"
 
         return img_data
 
@@ -520,6 +531,7 @@ def setlist():
 def get_card_info(card_id):
 
     user_id = user.get_user_id(session["username"])
+    currency = user.get_currency(user_id)
     user_cards = user.get_cards(user_id)
     deck = user.get_deck(user_id)
 
@@ -593,7 +605,7 @@ def get_card_info(card_id):
             card_info += f"Retreat Cost: {data['retreat']}<br>\n"
 
 
-    return render_template("card.html", in_deck = in_deck, card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
+    return render_template("card.html", currency = currency, in_deck = in_deck, card_id = card_id, owned = user_owns, card_img = img_data, card_data = card_info)
 
 
 
