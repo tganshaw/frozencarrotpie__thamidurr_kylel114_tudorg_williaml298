@@ -3,7 +3,6 @@
 <html>
   <head>
       <meta charset="UTF-8">
-      <meta http-equiv="x-ua-compatible" content="ie=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
       <title>Home</title>
@@ -60,12 +59,6 @@
             </a>
 
           </div>
-
-          {% if pull_error != -1 %}
-            <div class ='bg-cyan-500 rounded-[15%] h-[10%]'>
-              {{pull_error}}
-            </div>
-          {% endif %}
 
           <div class='flex flex-wrap items-center justify-center'>
             {{cards_pulled | safe}}
