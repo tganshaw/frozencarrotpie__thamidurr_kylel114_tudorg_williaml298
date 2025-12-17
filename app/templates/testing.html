@@ -40,8 +40,8 @@
 
 
 <div class = "flex flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white rounded-[15%]">
-What is this Pokemon's {{question_type}}?
-<a href = "/addcurrency?count=1000&page=trivia">e</a>
+What is this Pokemon's {{question_type}}<a href = "/addcurrency?count=1000&page=trivia">?</a>
+
 <br>
 <div class = 'flex flex-wrap w-full justify-center '>
 {{ testimg | safe }}
@@ -49,13 +49,13 @@ What is this Pokemon's {{question_type}}?
 
 
 <form action = "/trivia" method="POST">
-  <input type = "radio" id="q1" name="question" value='{{q1}}'>
+  <input type = "radio" id="q1" name="question" value='{{q1}}' required>
   <label for "q1"> {{q1}}</label>&nbsp;
-  <input type = "radio" id="q2" name="question" value='{{q2}}'>
+  <input type = "radio" id="q2" name="question" value='{{q2}}' required>
   <label for "q2"> {{q2}}</label>&nbsp;
-  <input type = "radio" id="q3" name="question" value='{{q3}}'>
+  <input type = "radio" id="q3" name="question" value='{{q3}}' required>
   <label for "q3"> {{q3}}</label>&nbsp;
-  <input type = "radio" id="q4" name="question" value='{{q4}}'>
+  <input type = "radio" id="q4" name="question" value='{{q4}}' required>
   <label for "q4"> {{q4}}</label>&nbsp;
 
   <input type = "hidden" name="type" value={{type}}>

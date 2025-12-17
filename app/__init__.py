@@ -297,7 +297,7 @@ def pull():
         currency = user.get_currency(user_id)
 
         pull_cost = 150
-        pull_cost -= (num_pulls % 10) * 5
+        pull_cost -= int(num_pulls / 10) * 50
         if(currency >= num_pulls * pull_cost):
             user.add_currency(user_id,-(num_pulls * pull_cost))
         else:
@@ -352,7 +352,7 @@ def remove_cards():
 def remove_from_deck():
     user_id = user.get_user_id(session["username"])
     user.remove_card_from_deck(user_id, request.args["id"])
-    return redirect(f"/card/{request.args['id']}")
+    return redirect(f"/displaycollection")
 
 #----------------------------------------------------------
 
@@ -364,7 +364,7 @@ def add_to_deck():
     card_id = request.args["id"]
     user_id = user.get_user_id(session["username"])
     user.add_card_to_deck(user_id,card_id)
-    return redirect(f"/card/{card_id}")
+    return redirect(f"/displaycollection")
 
 
 #----------------------------------------------------------
