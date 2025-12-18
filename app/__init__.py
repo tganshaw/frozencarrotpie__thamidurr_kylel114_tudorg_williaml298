@@ -415,7 +415,7 @@ def displayset():
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale} m-1'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale}'><br>\n"
                     img_data += "</a>"
                 # else:
                 #     img_data += f"<a href='card/{card['id']}'>"
