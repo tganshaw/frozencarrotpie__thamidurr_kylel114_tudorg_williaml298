@@ -36,7 +36,14 @@
 
 
 {% if cards == -1 %}
-{{title | safe}}
+<div class = 'items-center bg-white w-[10%] rounded-full'>
+  <p class='justify-center'>{{set_name | safe}}</p>
+</div>
+<img class='h-[38px] w-[38px]'src = '{{set_logo}}' class='p-2'><br><br>
+<div class='flex bg-white w-[40%] p-2 rounded-full'>
+<br><a href='/pull?set={{set_id}}' class='p-2'>Pull</a><br>
+<a href='/pull?set={{set_id}}&count=10' class='p-2'>Pull x10</a>
+</div>
 {% endif %}
 <br><br>
 

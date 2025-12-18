@@ -47,3 +47,7 @@ TudorG -- 2025-12-16 10:30
 - Fixed issues with trivia, sets, collection
 - Made all pages return currency
 - Fixed styling on card, trivia, and collection
+
+TudorG -- 2025-12-17 10:30
+- Fixed bugs with profile, trivia
+- Fixed the way certain data is returned for card and collection

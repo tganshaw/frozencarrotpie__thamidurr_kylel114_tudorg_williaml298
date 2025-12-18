@@ -301,6 +301,8 @@ def pull():
         if(currency >= num_pulls * pull_cost):
             user.add_currency(user_id,-(num_pulls * pull_cost))
         else:
+            if "set" in request.args:
+                return redirect(f"/displayset?SET={request.args['set']}")
             return render_template("pull.html", currency = currency, pull_error = "You don't have enough currency")
         currency = user.get_currency(user_id)
         cards = ""
@@ -395,13 +397,12 @@ def displayset():
         data = data["cards"]
 
         title_data = ""
-        title_data += f"<p class='p-2'>{set_data['name']}</p>\n"
+        set_name = set_data['name']
         if "logo" in set_data:
-            title_data += f"<img class='h-[38px] w-[38px]'src = {set_data['logo']} class='p-2'><br><br>\n"
-        title_data += "<div class='flex bg-white w-[40%] p-2 rounded-full'>"
-        title_data += f"<br><a href='/pull?set={set_id}' class='p-2'>Pull</a><br>\n"
-        title_data += f"<a href='/pull?set={set_id}&count=10' class='p-2'>Pull x10</a>\n"
-        title_data += "</div>"
+            set_logo = set_data['logo']
+        else:
+            set_logo = ""
+
         img_data = ""
         for card in data:
             if not isinstance(card,int):
@@ -421,8 +422,8 @@ def displayset():
     else:
         return redirect("/")
     if img_data == "":
-        return render_template("collection.html", title = title_data, deck = "Set has no images", cards = -1, currency = currency)
-    return render_template("collection.html", deck = img_data, title = title_data, cards = -1, currency = currency)
+        return render_template("collection.html", set_id = set_id, set_name = set_name, set_logo = set_logo, deck = "Set has no images", cards = -1, currency = currency)
+    return render_template("collection.html", set_id = set_id, set_name = set_name, set_logo = set_logo, deck = img_data, title = title_data, cards = -1, currency = currency)
 
 #----------------------------------------------------------
 
@@ -570,12 +571,7 @@ def get_card_info(card_id):
 
     img_data = ""
     if 'image' in data:
-        img_data += f"<a href = '{data['image']}/high.jpg' target = _blank>\n"
-        img_data += f"<img src = '{data['image']}/high.jpg'><br>\n"
-        img_data += "</a>"
-    else:
-        img_data += f"<img src = '../static/noimghigh.jpg'><br>\n"
-        img_data += "</a>"
+        img_data = data['image']
 
     card_info = ""
     card_info += f"Name: {data['name']}<br>\n"
