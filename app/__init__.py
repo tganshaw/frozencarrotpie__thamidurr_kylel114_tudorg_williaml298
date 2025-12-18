@@ -415,7 +415,7 @@ def displayset():
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale}'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale} m-1'><br>\n"
                     img_data += "</a>"
                 # else:
                 #     img_data += f"<a href='card/{card['id']}'>"
@@ -481,7 +481,7 @@ def display_collection(type):
                     data = json.load(file)["cards"][int(local_id)]
                     if "image" in data:
                     # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
-                        img_data += "<div class='object-center'>"
+                        img_data += "<div class='object-center m-2'>"
                         img_data += f"<a href='/card/{data['id']}'>"
                         img_data += f"<img src = '{data['image']}/low.jpg' loading='lazy'><br>\n"
                         img_data += "</a>"
@@ -515,10 +515,10 @@ def setlist():
                 if "image" in card:
                     image_count+= 1
         if "logo" in set and image_count > 0:
-            set_info += "<div class='w-[100px] h-[100px] m-5'>\n"
+            set_info += "<div class='w-[100px] h-[100px] m-8'>\n"
             set_info+= f"<a href = '/displayset?SET={set['id']}'>"
-            set_info += "<button class='w-[75px] h-[75px] rounded-full bg-blue-500 hover:bg-red-500 text-white pl-[7.5px] border-5' >\n"
-            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down justify-center w-[50px] h-[50px]' loading='lazy'>\n"
+            set_info += "<button class='w-[100px] h-[100px] rounded-full bg-blue-500 hover:bg-red-500 text-white pl-[10px] border-5 border-blue-700'>\n"
+            set_info += f"<img src = '{set['logo']}' class = 'object-scale-down justify-center w-[70px] h-[70px]' loading='lazy'>\n"
             set_info += "</button>\n"
             set_info += "</a><br>\n"
             set_info += "</div>\n"
