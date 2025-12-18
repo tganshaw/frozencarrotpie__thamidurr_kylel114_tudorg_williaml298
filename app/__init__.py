@@ -472,7 +472,7 @@ def display_collection(type):
                 set_id = set_id[:-1]
                 if("SWSH" in local_id or "HGSS" in local_id):
                     local_id = local_id[4:]
-                if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
+                if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id or "AR" in local_id):
                     local_id = local_id[2:]
                 local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 
@@ -558,7 +558,7 @@ def get_card_info(card_id):
     set_id = set_id[:-1]
     if("SWSH" in local_id or "HGSS" in local_id):
         local_id = local_id[4:]
-    if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id):
+    if("BW" in local_id or "XY" in local_id or "SM" in local_id or "SV" in local_id or "GG" in local_id or "DP" in local_id or "SH" in local_id or "RC" in local_id or "TG" in local_id or "SL" in local_id or "AR" in local_id):
         local_id = local_id[2:]
     local_id = str(card.correct_card_id_backwards(int(local_id), set_id))
 
