@@ -390,6 +390,7 @@ def displayset():
         else:
             return "Set doesn't exist. Sorry"
 
+        is_set = "True"
         user_id = user.get_user_id(session['username'])
         currency = user.get_currency(user_id)
         user_cards = user.get_cards(user_id)
@@ -422,8 +423,8 @@ def displayset():
     else:
         return redirect("/")
     if img_data == "":
-        return render_template("collection.html", set_id = set_id, set_name = set_name, set_logo = set_logo, deck = "Set has no images", cards = -1, currency = currency)
-    return render_template("collection.html", set_id = set_id, set_name = set_name, set_logo = set_logo, deck = img_data, title = title_data, cards = -1, currency = currency)
+        return render_template("collection.html", is_set = is_set, set_id = set_id, set_name = set_name, set_logo = set_logo, deck = "Set has no images", cards = -1, currency = currency)
+    return render_template("collection.html", is_set = is_set, set_id = set_id, set_name = set_name, set_logo = set_logo, deck = img_data, title = title_data, cards = -1, currency = currency)
 
 #----------------------------------------------------------
 
@@ -437,7 +438,7 @@ def display_collec():
         card_info = -1
     deck_info = display_collection("deck")
 
-    return render_template("collection.html", deck = deck_info, cards = card_info, currency = currency)
+    return render_template("collection.html", is_set = False, deck = deck_info, cards = card_info, currency = currency)
 
 #----------------------------------------------------------
 
