@@ -21,23 +21,24 @@ def before_request():
             session.pop("username", None)
             return redirect("/login.html")
 
-# @app.route("/profile")
-# def homepage():
-#     if 'username' not in session:
-#         return render_template("login.html")
-#
-#     if(not user.user_exists(session['username'])):
-#         return redirect("/logout")
-#
-#     DB = sqlite3.connect(DB_NAME)
-#     DB_CURSOR = DB.cursor()
-#
-#     DB_CURSOR.execute(f"SELECT id FROM userdata WHERE username =\"{session['username']}\";")
-#     userId = DB_CURSOR.fetchone()[0]
-#     session['userId'] = userId
-#     numBlogs = blog.get_num_blogs(userId)
-#     arr = blog.get_blog_links(userId)
-#     return render_template("userprofile.html", username = session["username"], numblogs = numBlogs, blogs = blog.get_blogs(userId), txt = arr, owner = "true")
+#----------------------------------------------------------
+
+@app.route("/search")
+def search():
+    currency = user.get_currency(user.get_user_id(session['username']))
+    user_searched = request.args["username"]
+    if user_searched == "":
+        user_searched = "%"
+    user_list = user.find_user(user_searched)
+    if len(user_list) == 0:
+        return redirect("/")
+    text = ""
+
+    for each_user in user_list:
+        user_name = each_user[0]
+        user_id = each_user[5]
+        text += f"<a href='/displaycollection?id={user_id}'>{user_name}</a><br>\n"
+    return render_template("search.html", search_list = text, currency = currency)
 
 #----------------------------------------------------------
 
