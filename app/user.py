@@ -168,6 +168,11 @@ def user_exists(username):
 def find_user(string):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
+    temp = ""
+    for i in string:
+        if i != "\"" and i != "'":
+            temp += i
+    string = temp
     cursor.execute(f"SELECT * FROM userdata WHERE username LIKE '%{string}%';")
     cursorfetch = cursor.fetchall()
     db.commit()

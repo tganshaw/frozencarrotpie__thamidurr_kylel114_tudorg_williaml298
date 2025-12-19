@@ -37,22 +37,38 @@
 
 {% if is_set == 'True' %}
 <div class = 'items-center bg-white w-[10%] rounded-full'>
-  <p class='justify-center'>{{set_name | safe}}</p>
+  <p class='text-center'>{{set_name | safe}}</p>
 </div>
 <img class='h-[38px] w-[38px]'src = '{{set_logo}}' class='p-2'><br><br>
-<div class='flex bg-white w-[40%] p-2 rounded-full'>
-<br><a href='/pull?set={{set_id}}' class='p-2'>Pull</a><br>
-<a href='/pull?set={{set_id}}&count=10' class='p-2'>Pull x10</a>
+<div class="w-full text-white flex justify-center gap-3">
+
+  <a href='/pull'>
+    <button
+      class="w-full text-2xl px-5 rounded-md font-semibold shadow-xl
+             bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700
+             hover:scale-[1.03] hover:bg-gradient-to-br transition">
+      Pull
+    </button>
+  </a>
+  <a href="/pull?count=10">
+     <button
+        class="w-full text-2xl px-5 rounded-md font-semibold shadow-xl
+               bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700
+               hover:scale-[1.03] hover:bg-gradient-to-br transition">
+        Pull x10
+    </button>
+  </a>
+
 </div>
 {% endif %}
 <br><br>
 
-<div class = "object-center flex flex-wrap w-[90%] pl-[11%] mb-[5%]">
+<div class = "gap-2 object-center flex flex-wrap w-[90%] pl-[5%] mb-[5%]">
 
 {% if deck != -1 %}
 
 {{deck | safe}}
-<br><br>
+
 
 {% endif %}
 
@@ -60,7 +76,7 @@
 
 
 {% if cards != -1 %}
-<div class = "flex flex-wrap w-[80%] pl-[6%] h-90 overflow-y-auto border-10 border-green-900 bg-green-700">
+<div class = "flex flex-wrap w-[80%] mb-4 pl-[6%] h-90 overflow-y-auto border-10 border-green-900 bg-green-700">
 
 {{cards | safe}}
 

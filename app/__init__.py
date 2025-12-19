@@ -31,7 +31,7 @@ def search():
         user_searched = "%"
     user_list = user.find_user(user_searched)
     if len(user_list) == 0:
-        return redirect("/")
+        return render_template("homepage.html", search_error = "No users found")
     text = ""
 
     for each_user in user_list:
@@ -330,7 +330,7 @@ def pull():
             if "image" in random_card:
                 random_card_id = random_card["id"]
                 cards += f"<a href='/card/{random_card_id}'>\n"
-                cards += f"<img src='{random_card['image']}/low.jpg'>\n"
+                cards += f"<img src='{random_card['image']}/low.jpg' class='rounded-[5%]'>\n"
                 cards += "</a>\n"
                 print(random_card["rarity"])
                 user.add_card(user_id,random_card_id)
@@ -415,7 +415,7 @@ def displayset():
                 if "image" in card:
                 # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                     img_data += f"<a href='card/{card['id']}'>"
-                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='{grayscale}'><br>\n"
+                    img_data += f"<img src = '{card['image']}/low.jpg' loading='lazy' class='rounded-[5%] {grayscale}'><br>\n"
                     img_data += "</a>"
                 # else:
                 #     img_data += f"<a href='card/{card['id']}'>"
@@ -483,13 +483,13 @@ def display_collection(type):
                     # img_data += f"<a href='{card["image"]}/high.jpg' target = _blank>"
                         img_data += "<div class='object-center m-2'>"
                         img_data += f"<a href='/card/{data['id']}'>"
-                        img_data += f"<img src = '{data['image']}/low.jpg' loading='lazy'><br>\n"
+                        img_data += f"<img src = '{data['image']}/low.jpg' class='rounded-[5%] loading='lazy'><br>\n"
                         img_data += "</a>"
                         img_data += "</div>"
                     else:
                         img_data += "<div class ='object-center'>"
                         img_data += f"<a href='/card/{data['id']}'>"
-                        img_data += f"<img src = 'static/noimglow.jpg' loading='lazy'><br>\n"
+                        img_data += f"<img src = 'static/noimglow.jpg' class='rounded-[5%]' loading='lazy'><br>\n"
                         img_data += "</a>"
                         img_data += "</div>"
 
