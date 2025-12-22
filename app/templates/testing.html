@@ -39,14 +39,15 @@
 </main>
 
 
-<div class = "flex flex-col flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white rounded-[15%]">
-<div>
+<div class="w-full max-w-xl p-10 rounded-2xl border border-white/40 bg-white/70 backdrop-blur-md shadow-xl mx-auto mt-16">
+<div class="text-center text-xl">
 What is this Pokemon's {{question_type}}<a href = "/addcurrency?count=1000&page=trivia">?</a>
 </div>
 <br>
-<div class = 'flex flex-wrap w-full justify-center '>
+<div class="flex flex-col w-full justify-center">
+  <div class="mx-auto">
 {{ testimg | safe }}
-
+</div>
 
 
 <form action = "/trivia" method="POST" class='flex flex-wrap items-center justify-center'>
@@ -67,10 +68,15 @@ What is this Pokemon's {{question_type}}<a href = "/addcurrency?count=1000&page=
   <input type = "hidden" name="type" value={{type}}>
   <input type = "hidden" name="dexnum" value={{dexnum}}>
   <input type = "hidden" name="stattype" value={{stattype}}>
-  <input type="submit" class="border rounded-full bg-gray-300 p-1 bold">
+
+  <div class="w-full flex justify-center mt-3">
+    <input type="submit" class="border rounded-full bg-gray-300 p-1 bold">
+  </div>
 </form>
 </div>
-<img src = '{{ gif | safe}}' class = 'rounded-[2%] pt-[2%]'>
+<div class="flex justify-center">
+  <img src = '{{ gif | safe}}' class = 'rounded-[2%] pt-[2%]'>
+</div>
 </div>
 
 
