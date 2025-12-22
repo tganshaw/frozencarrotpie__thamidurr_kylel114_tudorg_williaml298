@@ -18,6 +18,7 @@ def get_username(user_id):
 def get_user_id(username):
     db = sqlite3.connect(DB_NAME)
     cursor = db.cursor()
+    print(username)
     cursor.execute(f"SELECT id FROM userdata WHERE username = '{username}';")
     cursorfetch = cursor.fetchone()
     if(cursorfetch is not None):

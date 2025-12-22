@@ -39,32 +39,38 @@
 </main>
 
 
-<div class = "flex flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white rounded-[15%]">
+<div class = "flex flex-col flex-wrap w-[60%] pl-[20%] pr-[20%] ml-[20%] mt-[5%] pb-[1%] justify-center bg-white rounded-[15%]">
+<div>
 What is this Pokemon's {{question_type}}<a href = "/addcurrency?count=1000&page=trivia">?</a>
-
+</div>
 <br>
 <div class = 'flex flex-wrap w-full justify-center '>
 {{ testimg | safe }}
 
 
 
-<form action = "/trivia" method="POST">
+<form action = "/trivia" method="POST" class='flex flex-wrap items-center justify-center'>
+  <div>
   <input type = "radio" id="q1" name="question" value='{{q1}}' required>
   <label for "q1"> {{q1}}</label>&nbsp;
+
   <input type = "radio" id="q2" name="question" value='{{q2}}' required>
   <label for "q2"> {{q2}}</label>&nbsp;
+
   <input type = "radio" id="q3" name="question" value='{{q3}}' required>
   <label for "q3"> {{q3}}</label>&nbsp;
+
   <input type = "radio" id="q4" name="question" value='{{q4}}' required>
   <label for "q4"> {{q4}}</label>&nbsp;
+  </div>
 
   <input type = "hidden" name="type" value={{type}}>
   <input type = "hidden" name="dexnum" value={{dexnum}}>
   <input type = "hidden" name="stattype" value={{stattype}}>
-  <input type="submit">
+  <input type="submit" class="border rounded-full bg-gray-300 p-1 bold">
 </form>
 </div>
-{{ gif | safe}}
+<img src = '{{ gif | safe}}' class = 'rounded-[2%] pt-[2%]'>
 </div>
 
 

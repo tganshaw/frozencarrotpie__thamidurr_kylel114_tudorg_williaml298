@@ -150,7 +150,7 @@ def trivia():
             base_giphy_link = f"https://api.giphy.com/v1/gifs/search?api_key={api_key}&limit=1&q={emotion}"
 
             giphy_data = json.loads(urllib.request.urlopen(base_giphy_link).read())
-            gif_link = f"<img src='{giphy_data['data'][0]['images']['original']['url']}'>"
+            gif_link = giphy_data['data'][0]['images']['original']['url']
             # check = 0
             # while(check == 0):
             #
@@ -636,7 +636,7 @@ def register():
     userName = request.form['username']
     temp = ""
     for i in userName:
-        if i != '"':
+        if i != '\'':
             temp += i
     userName = temp
     if(len(userName) < 1):
@@ -669,6 +669,13 @@ def login():
     USER_DB_CURSOR = USER_DB.cursor()
 
     userName = request.form['username']
+    temp = ""
+    for i in userName:
+        if i != '\'':
+            print(i)
+            temp += i
+    userName = temp
+    print(userName)
     USER_DB_CURSOR.execute(f"SELECT COUNT(*) FROM userdata WHERE username = ?;",(userName,))
     alreadyExists = USER_DB_CURSOR.fetchone()[0]
     if(alreadyExists == 0):
@@ -677,7 +684,7 @@ def login():
     userPass = USER_DB_CURSOR.fetchone()[0]
     if(not userPass == request.form["password"]):
         return render_template("login.html", password_error = "Password is incorrect")
-    session["username"] = request.form["username"]
+    session["username"] = userName
 
     USER_DB.commit()
     USER_DB.close()

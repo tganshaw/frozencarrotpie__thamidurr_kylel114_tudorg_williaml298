@@ -41,22 +41,22 @@
                 <img src="../static/title.png" alt="Logo" class="w-[37rem] max-w-full drop-shadow-xl">
             </a>
 
-            <div class = 'flex flex-row bg-white rounded-[5%]'>
+            <div class = 'flex flex-row bg-white rounded-t-[15%] rounded-b-[5%] p-[5%] mb-[3%] gap-3'>
+              <div class = 'flex-1'>
               {% if owned == "true" %}
                 {% if in_deck == "false" %}
                   <a href = "/add_deck?id={{card_id}}">Add Card to Collection</a>
                 {% else %}
                   <a href = "/remove_deck?id={{card_id}}">Remove Card from Collection</a>
                 {% endif %}
-                <br>
               {% endif %}
-
-              <div>
+            </div>
+              <div class = 'flex-7'>
                 <a href = '{{card_img}}/high.jpg' target = _blank>
-                  <img src = '{{card_img}}/high.jpg'><br>
+                  <img src = '{{card_img}}/high.jpg' class='rounded-[2%]'><br>
                 </a>
               </div>
-              <div>
+              <div class = 'flex-7'>
                 {{card_data | safe}}
               </div>
             </div>
