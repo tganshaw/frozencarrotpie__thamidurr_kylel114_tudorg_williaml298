@@ -1,14 +1,26 @@
 ThamidurR -- 2025-12-02 22:50\n
 - Reviewed the design document, fixed mistakes, and polished\n
 
+ThamidurR -- 2025-12-03 11:00\n
+- Updated the README, added to the design document, and began coding\n
+
 TudorG -- 2025-12-03 11:30
 - Fixed some minor issues with database initializing so time in class could be better spent elsewhere
 
 TudorG -- 2025-12-04 6:30
 - Fixed issues with displaying user collections and adding cards to users' collections. Added a rudimentary form of the gacha system, and added all cached sets to data folder.
 
+ThamidurR -- 2025-12-04 11:00\n
+- Created page title, vision for the homepage, and began working on its template\n
+
+ThamidurR -- 2025-12-05 11:00\n
+- Created some of the buttons for the homepage and continued styling\n
+
 TudorG --2025-12-08 10:30
 - Fixed issues with displaying and the profile button, as well as with a certain set
+
+ThamidurR -- 2025-12-05 11:00\n
+- Added more styling and polished homepage.html\n
 
 WilliamL --2025-12-09 10:59
 - Working on styling with tailwind on login.html
@@ -16,11 +28,17 @@ WilliamL --2025-12-09 10:59
 TudorG -- 2025-12-09 10:30
 - Started implementing deck system
 
+ThamidurR -- 2025-12-09 11:00\n
+- Created the visions for the other pages and made the currency background\n
+
 WilliamL --2025-12-10 10:58
 - Added background image and styling to login.html
 
 TudorG -- 2025-12-10 10:30
 - Fixed styling for collection, dex, and set pages
+
+ThamidurR -- 2025-12-10 11:00\n
+- Styled the log out button and added some spacing\n
 
 WilliamL -- 2025-12-11 10:58
 - More styling and working on form for login
@@ -31,14 +49,23 @@ KyleL -- 2025-12-11 10:58
 TudorG -- 2025-12-11 10:30
 - Styled sets page, added currency to database, fixed minor issues with set list, profile, and set pages
 
+ThamidurR -- 2025-12-11 11:00\n
+- Began implementing currency\n
+
 WilliamL -- 2025-12-12 10:40
 - Finished styling login as well as making slight changes to register
 
 KyleL -- 2025-12-12 10:40
 - Fixed some styling on register
 
+ThamidurR -- 2025-12-12 11:00\n
+- Polished the currency text to move from left to right\n
+
 TudorG -- 2025-12-15 10:30
 - Started on the battle (trivia) system
+
+ThamidurR -- 2025-12-15 11:00\n
+- Changed the Carrot Pie image to fit its new container\n
 
 WilliamL -- 2025-12-16 11:00
 - Styling in profile and beginning work on navbar
@@ -51,3 +78,15 @@ TudorG -- 2025-12-16 10:30
 TudorG -- 2025-12-17 10:30
 - Fixed bugs with profile, trivia
 - Fixed the way certain data is returned for card and collection
+
+ThamidurR -- 2025-12-17 12:00\n
+- Polished new homepage.html\n
+
+ThamidurR -- 2025-12-18 15:00\n
+- Fixed image spacing and put homepage updates into other pages\n
+
+ThamidurR -- 2025-12-19 11:00\n
+- Final styling changes\n
+
+ThamidurR -- 2025-12-21 19:10\n
+- Changed outdated README\n
