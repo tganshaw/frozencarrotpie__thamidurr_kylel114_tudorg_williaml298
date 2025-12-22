@@ -2,7 +2,7 @@
 # Roster: Thamidur, Tudor, Kyle, William
 
 ### Vision Statement: 
-We will create the official Pokémon card game using the TCGDex API for card stats and abilities. We plan to use a gacha system to collect cards, which the user will then use to create a deck and face increasingly harder robots. They can also save their progress by logging in, which we will incorporate with help from the previous project. Lastly, we will use the Giphy API for humorous effect and the Faker API for our robot's names.
+We recreated the Pokémon trading card game. TCGDex API was used to display cards and show their stats, while PokeAPI helped us create a trivia game. This allows the user to collect carrot pies, which can then be used in a gacha system to find cards. Once the user upgrades their collection, they can show it off to others and view their decks. Their progress is saved by logging in, which was incorporated with help from project p00. Lastly, we used the Giphy API for a humorous effect.
 
 ### Install Guides:
 Pre-Requisites:
