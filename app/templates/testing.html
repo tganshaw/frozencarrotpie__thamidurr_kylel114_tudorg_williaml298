@@ -45,9 +45,12 @@ What is this Pokemon's {{question_type}}<a href = "/addcurrency?count=1000&page=
 </div>
 <br>
 <div class="flex flex-col w-full justify-center">
-  <div class="mx-auto">
-{{ testimg | safe }}
-</div>
+  <div class="mx-auto flex-row">
+    <img src= '{{front_img}}' class = 'object-fill'>
+    {% if back_img != -1 %}
+      <img src='{{back_img}}' class = 'object-fill'>
+    {% endif %}
+  </div>
 
 
 <form action = "/trivia" method="POST" class='flex flex-wrap items-center justify-center'>

@@ -165,8 +165,11 @@ def trivia():
 
     img_str = ""
     if data['sprites']['back_default'] != None:
-        img_str += f"<img src ='{data['sprites']['back_default']}'><br>\n"
-    img_str += f"<img src ='{data['sprites']['front_default']}'><br>\n"
+        back_img = data['sprites']['back_default']
+    else:
+        back_img = -1
+
+    front_img = data['sprites']['front_default']
 
     possible_topics = ["gen","height","stats","type","weight"]
     topic = random.choice(possible_topics)
@@ -274,7 +277,7 @@ def trivia():
                 possible_answers.append(round(real_weight * rand_modifier, 2))
 
     random.shuffle(possible_answers)
-    return render_template("testing.html", currency = currency, testimg = img_str, gif = gif_link, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
+    return render_template("testing.html", currency = currency, front_img = front_img, back_img = back_img, gif = gif_link, question_type = question_type, stattype = stat_type, dexnum = dex_num, type = topic, q1 = possible_answers[0], q2 = possible_answers[1], q3 = possible_answers[2], q4 = possible_answers[3])
 
 
 #----------------------------------------------------------
