@@ -99,3 +99,6 @@ TudorG -- 2025-12-21 6:30
     -Updated API used to reflect to removal of Faker & addition of PokeAPI
 -Added requirements.txt
 -Fixed login to no longer break on single quotes
+
+WilliamL -- 2025-12-21 8:30
+- Updated trivia page with styling
