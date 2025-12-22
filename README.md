@@ -1,7 +1,9 @@
 # PokeCards by Frozen Carrot Pie
+
 # Roster: Thamidur (PM & Front End Developer), Tudor (Back End Developer), Kyle (Front End Developer), William (Front End Developer)
 
-Project Description: A website where users can collect and display cards from the Pokemon TCG & also complete Pokemon themed trivia questions.
+### Vision Statement:
+We recreated the Pokémon trading card game. TCGDex API was used to display cards and show their stats, while PokeAPI helped us create a trivia game. This allows the user to collect carrot pies, which can then be used in a gacha system to find cards. Once the user upgrades their collection, they can show it off to others and view their decks. Their progress is saved by logging in, which was incorporated with help from project p00. Lastly, we used the Giphy API for a humorous effect.
 
 # Install Guide:
 
@@ -58,3 +60,9 @@ Project Description: A website where users can collect and display cards from th
 ### Run \_\_init\_\_.py
 
   ``` python __init__.py ```
+
+
+### Launch Codes:
+```
+python app/__init__.py
+```
